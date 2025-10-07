@@ -1,11 +1,16 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed;
     public float runSpeed;
+    public float jumpForce;
+    public float fallSpeedBonus;
 
     private Rigidbody _rb;
+
+    public LayerMask jumpLayers;
 
     private void Awake()
     {
@@ -40,12 +45,41 @@ public class PlayerMovement : MonoBehaviour
             speed = runSpeed;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && CheckIfLanded())
+        {
+            Jump();
+        }
+
         MovePlayer(direction, speed);
 
     }
 
+    private bool CheckIfLanded()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, .3f, jumpLayers))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void Jump()
+    {
+        _rb.AddForce(Vector3.up * jumpForce);
+    }
+
     void MovePlayer(Vector3 dir, float speed)
     {
-        _rb.linearVelocity = dir.normalized * speed;
+        var yVelocity = _rb.linearVelocity;
+
+        yVelocity.x = 0;
+        yVelocity.z = 0;
+
+        if (yVelocity.y < 0)
+        {
+            yVelocity.y -= fallSpeedBonus * Time.deltaTime;
+        }
+
+        _rb.linearVelocity = dir.normalized * speed + yVelocity;
     }
 }
