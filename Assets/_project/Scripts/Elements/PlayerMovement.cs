@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Camera mainCamera;
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
@@ -11,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rb;
 
     public LayerMask jumpLayers;
+    public LayerMask lookLayers;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
-
 
     private void Update()
     {
@@ -51,7 +52,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         MovePlayer(direction, speed);
+        LookAtMouse();
+    }
 
+    private void LookAtMouse()
+    {
+        Debug.DrawRay(mainCamera.transform.position, mainCamera.ScreenPointToRay(Input.mousePosition).direction * 50);
+        if (Physics.Raycast(mainCamera.transform.position,
+            mainCamera.ScreenPointToRay(Input.mousePosition).direction,
+            out var hit,
+            50,
+            lookLayers))
+        {
+            var lookPos = hit.point;
+            lookPos.y = transform.position.y;
+            transform.LookAt(lookPos);
+        }
     }
 
     private bool CheckIfLanded()
