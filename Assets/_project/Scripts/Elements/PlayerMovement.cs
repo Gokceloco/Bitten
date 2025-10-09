@@ -57,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void LookAtMouse()
     {
-        Debug.DrawRay(mainCamera.transform.position, mainCamera.ScreenPointToRay(Input.mousePosition).direction * 50);
         if (Physics.Raycast(mainCamera.transform.position,
             mainCamera.ScreenPointToRay(Input.mousePosition).direction,
             out var hit,
