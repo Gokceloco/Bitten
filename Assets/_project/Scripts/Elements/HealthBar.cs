@@ -1,8 +1,11 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
     public Transform fillBarParent;
+    public Transform fillBarWhiteParent;
+    public SpriteRenderer fillBarSpriteRenderer;
 
     private void Update()
     {
@@ -11,7 +14,14 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealthBar(float ratio)
     {
-        fillBarParent.localScale = new Vector3(ratio, 1, 1);
+        fillBarParent.transform.localScale = new Vector3(ratio, 1, 1);
+        fillBarWhiteParent.DOKill();
+        fillBarWhiteParent.DOScale(new Vector3(ratio, 1, 1), .2f).SetDelay(.1f);
+        fillBarSpriteRenderer.DOKill();
+        fillBarSpriteRenderer.color = Color.red;
+        fillBarSpriteRenderer.DOColor(Color.yellow, .1f).SetLoops(2, LoopType.Yoyo);
+
+
         if (ratio >= 1)
         {
             gameObject.SetActive(false);
@@ -24,5 +34,12 @@ public class HealthBar : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
+    }
+
+    private void OnDestroy()
+    {
+        fillBarParent.DOKill();
+        fillBarSpriteRenderer.DOKill();
+        fillBarWhiteParent.DOKill();
     }
 }
