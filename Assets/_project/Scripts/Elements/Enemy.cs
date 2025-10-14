@@ -17,6 +17,10 @@ public class Enemy : MonoBehaviour
     private Rigidbody _rb;
     private Player _player;
 
+    public LayerMask playerSeeLayerMask;
+
+    private Vector3 _playerLastSeenPosition;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -39,11 +43,14 @@ public class Enemy : MonoBehaviour
         //Decider Logic
         if (GetDistanceFromPlayer() < playerWalkTowardsDistance)
         {
-            actionState = ActionState.WalkTowardsPlayer;
-        }
-        else
-        {
-            actionState = ActionState.Standing;
+            if (GetIfEnemySeesPlayer())
+            {
+                actionState = ActionState.WalkTowardsPlayer;
+            }
+            else if (_playerLastSeenPosition != Vector3.zero)
+            {
+                actionState = ActionState.WalkTowardsPlayerLastSeenPos;                
+            }
         }
 
         //Action States
@@ -51,10 +58,28 @@ public class Enemy : MonoBehaviour
         {
             WalkTowardsPlayer();
         }
+        else if (actionState == ActionState.WalkTowardsPlayerLastSeenPos)
+        {
+            WalkTowardsPlayerLastPosition();
+        }
         else if (actionState == ActionState.Standing)
         {
             StopEnemy();
         }
+    }
+
+    
+
+    private bool GetIfEnemySeesPlayer()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up,
+            _player.transform.position - transform.position,
+            playerWalkTowardsDistance, playerSeeLayerMask))
+        {
+            return false;
+        }
+        _playerLastSeenPosition = _player.transform.position;
+        return true;
     }
 
     private void StopEnemy()
@@ -73,8 +98,13 @@ public class Enemy : MonoBehaviour
         dir = (_player.transform.position - transform.position).normalized;
         _rb.linearVelocity = dir * speed;
     }
+    private void WalkTowardsPlayerLastPosition()
+    {
+        var dir = Vector3.zero;
+        dir = (_playerLastSeenPosition - transform.position).normalized;
+        _rb.linearVelocity = dir * speed;
+    }
 
-    
     public void GetHit(int damage)
     {
         _currentHealth -= damage;
@@ -95,6 +125,7 @@ public enum ActionState
 {
     Standing,
     WalkTowardsPlayer,
+    WalkTowardsPlayerLastSeenPos,
     Attack,
     Dead,
 }
