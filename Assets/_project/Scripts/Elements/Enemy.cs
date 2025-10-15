@@ -1,6 +1,7 @@
 using Mono.Cecil.Cil;
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     public ActionState actionState;
 
     private Rigidbody _rb;
+    private NavMeshAgent _navMeshAgent;
     private Player _player;
 
     public LayerMask playerSeeLayerMask;
@@ -24,6 +26,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     public void StartEnemy(Player player)
@@ -94,15 +97,11 @@ public class Enemy : MonoBehaviour
 
     private void WalkTowardsPlayer()
     {
-        var dir = Vector3.zero;
-        dir = (_player.transform.position - transform.position).normalized;
-        _rb.linearVelocity = dir * speed;
+        _navMeshAgent.SetDestination(_player.transform.position);
     }
     private void WalkTowardsPlayerLastPosition()
     {
-        var dir = Vector3.zero;
-        dir = (_playerLastSeenPosition - transform.position).normalized;
-        _rb.linearVelocity = dir * speed;
+        _navMeshAgent.SetDestination(_playerLastSeenPosition);
     }
 
     public void GetHit(int damage)
