@@ -7,7 +7,7 @@ public class HealthBar : MonoBehaviour
     public Transform fillBarWhiteParent;
     public SpriteRenderer fillBarSpriteRenderer;
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.LookAt(Camera.main.transform.position);
     }

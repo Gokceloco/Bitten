@@ -53,6 +53,7 @@ MonoBehaviour:
   startHealth: 10
   speed: 3
   playerWalkTowardsDistance: 10
+  playerAttackDistance: 2
   actionState: 0
   playerSeeLayerMask:
     serializedVersion: 2
@@ -105,7 +106,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!195 &8126002791532964177
 NavMeshAgent:

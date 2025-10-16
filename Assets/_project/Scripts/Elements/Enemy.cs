@@ -1,5 +1,7 @@
+using DG.Tweening;
 using Mono.Cecil.Cil;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     public float speed;
     public float playerWalkTowardsDistance;
+    public float playerAttackDistance;
 
     public ActionState actionState;
 
@@ -22,6 +25,8 @@ public class Enemy : MonoBehaviour
     public LayerMask playerSeeLayerMask;
 
     private Vector3 _playerLastSeenPosition;
+
+    private bool _isAttackInProgress;
 
     private void Awake()
     {
@@ -44,7 +49,11 @@ public class Enemy : MonoBehaviour
         }
 
         //Decider Logic
-        if (GetDistanceFromPlayer() < playerWalkTowardsDistance)
+        if (GetDistanceFromPlayer() < playerAttackDistance)
+        {
+            actionState = ActionState.Attack;
+        }
+        else if (GetDistanceFromPlayer() < playerWalkTowardsDistance && !_isAttackInProgress)
         {
             if (GetIfEnemySeesPlayer())
             {
@@ -65,13 +74,35 @@ public class Enemy : MonoBehaviour
         {
             WalkTowardsPlayerLastPosition();
         }
+        else if (actionState == ActionState.Attack)
+        {
+            AttackPlayer();
+        }
         else if (actionState == ActionState.Standing)
         {
             StopEnemy();
         }
     }
 
-    
+    private void AttackPlayer()
+    {
+        if (!_isAttackInProgress)
+        {
+            _isAttackInProgress = true;
+            _navMeshAgent.isStopped = true;
+            StartCoroutine(AttackCoroutine(2));
+        }
+    }
+
+    IEnumerator AttackCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (GetDistanceFromPlayer() < playerAttackDistance)
+        {
+            _player.GetHit(1);
+        }
+        _isAttackInProgress = false;
+    }
 
     private bool GetIfEnemySeesPlayer()
     {
@@ -98,10 +129,12 @@ public class Enemy : MonoBehaviour
     private void WalkTowardsPlayer()
     {
         _navMeshAgent.SetDestination(_player.transform.position);
+        _navMeshAgent.isStopped = false;
     }
     private void WalkTowardsPlayerLastPosition()
     {
         _navMeshAgent.SetDestination(_playerLastSeenPosition);
+        _navMeshAgent.isStopped = false;
     }
 
     public void GetHit(int damage)
