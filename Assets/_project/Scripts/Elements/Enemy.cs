@@ -17,9 +17,11 @@ public class Enemy : MonoBehaviour
     public float playerAttackDistance;
 
     public ActionState actionState;
+    public AnimationState currentAnimationState;
 
     private Rigidbody _rb;
     private NavMeshAgent _navMeshAgent;
+    private Animator _animator;
     private Player _player;
 
     public LayerMask playerSeeLayerMask;
@@ -32,6 +34,7 @@ public class Enemy : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     public void StartEnemy(Player player)
@@ -90,6 +93,7 @@ public class Enemy : MonoBehaviour
         {
             _isAttackInProgress = true;
             _navMeshAgent.isStopped = true;
+            SwitchAnimation(AnimationState.Idle);
             StartCoroutine(AttackCoroutine(2));
         }
     }
@@ -119,6 +123,7 @@ public class Enemy : MonoBehaviour
     private void StopEnemy()
     {
         _rb.linearVelocity = Vector3.zero;
+        SwitchAnimation(AnimationState.Idle);
     }
 
     private float GetDistanceFromPlayer()
@@ -130,11 +135,37 @@ public class Enemy : MonoBehaviour
     {
         _navMeshAgent.SetDestination(_player.transform.position);
         _navMeshAgent.isStopped = false;
+        SwitchAnimation(AnimationState.Walk);
     }
     private void WalkTowardsPlayerLastPosition()
     {
         _navMeshAgent.SetDestination(_playerLastSeenPosition);
         _navMeshAgent.isStopped = false;
+        SwitchAnimation(AnimationState.Walk);
+    }
+
+    private void SwitchAnimation(AnimationState desiredAnimationState)
+    {
+        if (desiredAnimationState == AnimationState.Walk && currentAnimationState != AnimationState.Walk)
+        {
+            _animator.SetTrigger("Walk");
+            currentAnimationState = AnimationState.Walk;
+        }
+        else if (desiredAnimationState == AnimationState.Idle && currentAnimationState != AnimationState.Idle)
+        {
+            _animator.SetTrigger("Idle");
+            currentAnimationState = AnimationState.Idle;
+        }
+        else if (desiredAnimationState == AnimationState.Attack && currentAnimationState != AnimationState.Attack)
+        {
+            _animator.SetTrigger("Attack");
+            currentAnimationState = AnimationState.Attack;
+        }
+        else if (desiredAnimationState == AnimationState.Die && currentAnimationState != AnimationState.Die)
+        {
+            _animator.SetTrigger("Die");
+            currentAnimationState = AnimationState.Die;
+        }
     }
 
     public void GetHit(int damage)
@@ -160,4 +191,11 @@ public enum ActionState
     WalkTowardsPlayerLastSeenPos,
     Attack,
     Dead,
+}
+public enum AnimationState
+{
+    Idle,
+    Walk,
+    Attack,
+    Die,
 }
