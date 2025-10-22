@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     public ActionState actionState;
     public AnimationState currentAnimationState;
+    private AnimationState _animationStateBeforeGetHit;
 
     private Rigidbody _rb;
     private NavMeshAgent _navMeshAgent;
@@ -29,12 +30,14 @@ public class Enemy : MonoBehaviour
     private Vector3 _playerLastSeenPosition;
 
     private bool _isAttackInProgress;
+    private CapsuleCollider _capsuleCollider;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     public void StartEnemy(Player player)
@@ -93,8 +96,8 @@ public class Enemy : MonoBehaviour
         {
             _isAttackInProgress = true;
             _navMeshAgent.isStopped = true;
-            SwitchAnimation(AnimationState.Idle);
-            StartCoroutine(AttackCoroutine(2));
+            SwitchAnimation(AnimationState.Attack, true);
+            StartCoroutine(AttackCoroutine(1.2f));
         }
     }
 
@@ -133,35 +136,47 @@ public class Enemy : MonoBehaviour
 
     private void WalkTowardsPlayer()
     {
-        _navMeshAgent.SetDestination(_player.transform.position);
-        _navMeshAgent.isStopped = false;
-        SwitchAnimation(AnimationState.Walk);
+        if (currentAnimationState != AnimationState.GetHit)
+        {
+            _navMeshAgent.SetDestination(_player.transform.position);
+            _navMeshAgent.isStopped = false;
+            SwitchAnimation(AnimationState.Walk);
+        }        
     }
     private void WalkTowardsPlayerLastPosition()
     {
-        _navMeshAgent.SetDestination(_playerLastSeenPosition);
-        _navMeshAgent.isStopped = false;
-        SwitchAnimation(AnimationState.Walk);
+
+        if (currentAnimationState != AnimationState.GetHit)
+        {
+            _navMeshAgent.SetDestination(_playerLastSeenPosition);
+            _navMeshAgent.isStopped = false;
+            SwitchAnimation(AnimationState.Walk);
+        }
     }
 
-    private void SwitchAnimation(AnimationState desiredAnimationState)
+    private void SwitchAnimation(AnimationState desiredAnimationState, bool forcePlayAnimation = false)
     {
-        if (desiredAnimationState == AnimationState.Walk && currentAnimationState != AnimationState.Walk)
+        if (desiredAnimationState == AnimationState.Walk && (currentAnimationState != AnimationState.Walk || forcePlayAnimation))
         {
             _animator.SetTrigger("Walk");
             currentAnimationState = AnimationState.Walk;
         }
-        else if (desiredAnimationState == AnimationState.Idle && currentAnimationState != AnimationState.Idle)
+        else if (desiredAnimationState == AnimationState.Idle && (currentAnimationState != AnimationState.Idle || forcePlayAnimation))
         {
             _animator.SetTrigger("Idle");
             currentAnimationState = AnimationState.Idle;
         }
-        else if (desiredAnimationState == AnimationState.Attack && currentAnimationState != AnimationState.Attack)
+        else if (desiredAnimationState == AnimationState.Attack && (currentAnimationState != AnimationState.Attack || forcePlayAnimation))
         {
             _animator.SetTrigger("Attack");
             currentAnimationState = AnimationState.Attack;
         }
-        else if (desiredAnimationState == AnimationState.Die && currentAnimationState != AnimationState.Die)
+        else if (desiredAnimationState == AnimationState.GetHit && (currentAnimationState != AnimationState.GetHit || forcePlayAnimation))
+        {
+            _animator.SetTrigger("GetHit");
+            currentAnimationState = AnimationState.GetHit;
+        }
+        else if (desiredAnimationState == AnimationState.Die && (currentAnimationState != AnimationState.Die || forcePlayAnimation))
         {
             _animator.SetTrigger("Die");
             currentAnimationState = AnimationState.Die;
@@ -171,6 +186,7 @@ public class Enemy : MonoBehaviour
     public void GetHit(int damage)
     {
         _currentHealth -= damage;
+        StartCoroutine(PlayGetHitCoroutine());
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
         if (_currentHealth <= 0)
         {
@@ -178,9 +194,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator PlayGetHitCoroutine()
+    {
+        if (currentAnimationState != AnimationState.GetHit)
+        {
+            _animationStateBeforeGetHit = currentAnimationState;
+        }
+        _navMeshAgent.isStopped = true;
+        SwitchAnimation(AnimationState.GetHit);
+        yield return new WaitForSeconds(.1f);
+        SwitchAnimation(_animationStateBeforeGetHit);
+    }
+
     private void Die()
     {
-        Destroy(gameObject);
+        actionState = ActionState.Dead;
+        _animationStateBeforeGetHit = AnimationState.Die;
+        _navMeshAgent.isStopped = true;
+        _capsuleCollider.enabled = false;
+        SwitchAnimation(AnimationState.Die);
+        Destroy(gameObject, 3);
     }
 }
 
@@ -197,5 +230,6 @@ public enum AnimationState
     Idle,
     Walk,
     Attack,
+    GetHit,
     Die,
 }
