@@ -124,12 +124,16 @@ MonoBehaviour:
   healthBar: {fileID: 5713119826512516454}
   startHealth: 10
   speed: 3
-  playerWalkTowardsDistance: 10
+  playerWalkTowardsDistance: 20
   playerAttackDistance: 2
   actionState: 0
+  currentAnimationState: 0
   playerSeeLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  eyeLights:
+  - {fileID: 7276422698938312322}
+  - {fileID: 4454493349620535954}
 --- !u!1 &1967110099075880260
 GameObject:
   m_ObjectHideFlags: 0

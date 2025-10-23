@@ -2,6 +2,7 @@ using DG.Tweening;
 using Mono.Cecil.Cil;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,6 +32,10 @@ public class Enemy : MonoBehaviour
 
     private bool _isAttackInProgress;
     private CapsuleCollider _capsuleCollider;
+
+    public List<Light> eyeLights;
+
+    private Coroutine _attackCoroutine;
 
     private void Awake()
     {
@@ -97,13 +102,13 @@ public class Enemy : MonoBehaviour
             _isAttackInProgress = true;
             _navMeshAgent.isStopped = true;
             SwitchAnimation(AnimationState.Attack, true);
-            StartCoroutine(AttackCoroutine(1.2f));
+            _attackCoroutine = StartCoroutine(AttackCoroutine(1.2f));
         }
     }
 
-    IEnumerator AttackCoroutine(float delay)
+    IEnumerator AttackCoroutine(float hitDelay)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(hitDelay);
         if (GetDistanceFromPlayer() < playerAttackDistance)
         {
             _player.GetHit(1);
@@ -175,12 +180,20 @@ public class Enemy : MonoBehaviour
         {
             _animator.SetTrigger("GetHit");
             currentAnimationState = AnimationState.GetHit;
+            StartCoroutine(UpperBodyMaskCoroutine(.3f, .5f));
         }
         else if (desiredAnimationState == AnimationState.Die && (currentAnimationState != AnimationState.Die || forcePlayAnimation))
         {
             _animator.SetTrigger("Die");
             currentAnimationState = AnimationState.Die;
         }
+    }
+
+    IEnumerator UpperBodyMaskCoroutine(float delay, float amount)
+    {
+        _animator.SetLayerWeight(1, amount);
+        yield return new WaitForSeconds(delay);
+        _animator.SetLayerWeight(1, 0);
     }
 
     public void GetHit(int damage)
@@ -213,6 +226,10 @@ public class Enemy : MonoBehaviour
         _navMeshAgent.isStopped = true;
         _capsuleCollider.enabled = false;
         SwitchAnimation(AnimationState.Die);
+        foreach (var e in eyeLights)
+        {
+            e.enabled = false;
+        }
         Destroy(gameObject, 3);
     }
 }
