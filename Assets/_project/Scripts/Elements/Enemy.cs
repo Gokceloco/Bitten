@@ -163,7 +163,8 @@ public class Enemy : MonoBehaviour
     {
         if (desiredAnimationState == AnimationState.Walk && (currentAnimationState != AnimationState.Walk || forcePlayAnimation))
         {
-            _animator.SetTrigger("Walk");
+            //_animator.SetTrigger("Walk");
+            _animator.CrossFade("Walk", .1f);
             currentAnimationState = AnimationState.Walk;
         }
         else if (desiredAnimationState == AnimationState.Idle && (currentAnimationState != AnimationState.Idle || forcePlayAnimation))
@@ -184,7 +185,8 @@ public class Enemy : MonoBehaviour
         }
         else if (desiredAnimationState == AnimationState.Die && (currentAnimationState != AnimationState.Die || forcePlayAnimation))
         {
-            _animator.SetTrigger("Die");
+            //_animator.SetTrigger("Die");
+            _animator.CrossFade("Die", .1f);
             currentAnimationState = AnimationState.Die;
         }
     }
@@ -209,6 +211,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator PlayGetHitCoroutine()
     {
+        CancelAttack();
         if (currentAnimationState != AnimationState.GetHit)
         {
             _animationStateBeforeGetHit = currentAnimationState;
@@ -221,6 +224,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        CancelAttack();
         actionState = ActionState.Dead;
         _animationStateBeforeGetHit = AnimationState.Die;
         _navMeshAgent.isStopped = true;
@@ -231,6 +235,15 @@ public class Enemy : MonoBehaviour
             e.enabled = false;
         }
         Destroy(gameObject, 3);
+    }
+
+    private void CancelAttack()
+    {
+        _isAttackInProgress = false;
+        if (_attackCoroutine != null)
+        {
+            StopCoroutine(_attackCoroutine);
+        }
     }
 }
 
