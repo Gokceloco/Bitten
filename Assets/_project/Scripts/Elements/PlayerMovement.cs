@@ -60,6 +60,13 @@ public class PlayerMovement : MonoBehaviour
 
         MovePlayer(direction, speed);
         LookAtMouse();
+
+        SetWalkDirection(Vector3.SignedAngle(transform.forward, direction, Vector3.up));
+    }
+
+    void SetWalkDirection(float angle)
+    {
+        _animator.SetFloat("WalkDirection", angle);
     }
 
     private void LookAtMouse()
