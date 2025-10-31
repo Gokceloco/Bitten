@@ -14,6 +14,11 @@ public class LevelManager : MonoBehaviour
         CreateNewLevel();
     }
 
+    public void StopLevel()
+    {
+        _currentLevel.StopLevel();
+    }
+
     private void CreateNewLevel()
     {
         _currentLevel = Instantiate(levelPrefabs[currentLevelNo - 1]);

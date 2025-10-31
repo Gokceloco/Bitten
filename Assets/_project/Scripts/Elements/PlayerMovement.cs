@@ -17,15 +17,23 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
 
     private bool _isJumping;
+    private Player _player;
+
 
     private void Awake()
     {
+        _player = GetComponent<Player>();
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
+        if (_player.isDead)
+        {
+            return;
+        }
+
         var direction = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
@@ -126,11 +134,12 @@ public class PlayerMovement : MonoBehaviour
         _rb.linearVelocity = dir.normalized * speed + yVelocity;
     }
 
-    void ChangeAnimationState(string key)
+    public void ChangeAnimationState(string key)
     {
         _animator.SetBool("Idle", false);
         _animator.SetBool("Run", false);
         _animator.SetBool("Jump", false);
+        _animator.SetBool("Die", false);
         _animator.SetBool(key, true);
     }
 }

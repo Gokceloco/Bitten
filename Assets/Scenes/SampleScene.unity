@@ -933,8 +933,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ce22b35e904784196bba758eb148ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 10
+  gameDirector: {fileID: 155029346}
+  startHealth: 1
   healthBar: {fileID: 1880207823}
+  isDead: 0
 --- !u!114 &1390941877
 MonoBehaviour:
   m_ObjectHideFlags: 0

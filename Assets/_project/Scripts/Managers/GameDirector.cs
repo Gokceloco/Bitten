@@ -52,4 +52,9 @@ public class GameDirector : MonoBehaviour
         levelManager.RestartLevelManager();
         player.RestartPlayer();
     }
+
+    public void PlayerDied()
+    {
+        levelManager.StopLevel();
+    }
 }

@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
 
     private Coroutine _attackCoroutine;
 
+    private bool _isPlayerDead;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -54,7 +56,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (actionState == ActionState.Dead)
+        if (actionState == ActionState.Dead || _isPlayerDead)
         {
             return;
         }
@@ -88,10 +90,6 @@ public class Enemy : MonoBehaviour
         else if (actionState == ActionState.Attack)
         {
             AttackPlayer();
-        }
-        else if (actionState == ActionState.Standing)
-        {
-            StopEnemy();
         }
     }
 
@@ -128,9 +126,14 @@ public class Enemy : MonoBehaviour
         return true;
     }
 
-    private void StopEnemy()
+    public void SetPlayerDead()
     {
-        _rb.linearVelocity = Vector3.zero;
+        if (_attackCoroutine != null)
+        {
+            StopCoroutine(_attackCoroutine);
+        }
+        _isPlayerDead = true;
+        _navMeshAgent.isStopped = true;
         SwitchAnimation(AnimationState.Idle);
     }
 

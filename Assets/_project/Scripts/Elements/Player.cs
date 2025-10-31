@@ -3,10 +3,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameDirector gameDirector;
+
     public int startHealth;
     private int _currentHealth;
 
     public HealthBar healthBar;
+
+    private PlayerMovement _playerMovement;
+
+    public bool isDead;
+
+    private void Awake()
+    {
+        _playerMovement = GetComponent<PlayerMovement>();
+    }
 
     private void Update()
     {
@@ -17,14 +28,19 @@ public class Player : MonoBehaviour
     }
     public void RestartPlayer()
     {
-        gameObject.SetActive(true);
         transform.position = Vector3.zero;
         _currentHealth = startHealth;
         healthBar.SetHealthBar(1);
+        _playerMovement.ChangeAnimationState("Idle");
+        isDead = false;
     }
 
     public void GetHit(int damage)
     {
+        if (isDead)
+        {
+            return;
+        }
         _currentHealth -= damage;
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
         if (_currentHealth <= 0)
@@ -35,6 +51,8 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        gameObject.SetActive(false);
+        isDead = true;
+        _playerMovement.ChangeAnimationState("Die");
+        gameDirector.PlayerDied();
     }
 }
