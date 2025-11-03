@@ -56,5 +56,18 @@ public class GameDirector : MonoBehaviour
     public void PlayerDied()
     {
         levelManager.StopLevel();
+        LevelFailed();
+    }
+
+    public void LevelCompleted()
+    {
+        print("LevelCompleted");
+        Invoke(nameof(LoadNextLevel), 2);
+    }
+
+    void LevelFailed()
+    {
+        print("Level Failed");
+        Invoke(nameof(RestartLevel), 2);
     }
 }

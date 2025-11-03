@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
             yVelocity.y -= fallSpeedBonus * Time.deltaTime;
         }
 
-        if (!_isJumping)
+        if (!_isJumping && !_player.didWin)
         {
             if (dir.magnitude > 0)
             {
@@ -140,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("Run", false);
         _animator.SetBool("Jump", false);
         _animator.SetBool("Die", false);
+        _animator.SetBool("Win", false);
         _animator.SetBool(key, true);
     }
 }

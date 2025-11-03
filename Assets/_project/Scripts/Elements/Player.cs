@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private PlayerMovement _playerMovement;
 
     public bool isDead;
+    public bool didWin;
 
     private void Awake()
     {
@@ -33,6 +34,18 @@ public class Player : MonoBehaviour
         healthBar.SetHealthBar(1);
         _playerMovement.ChangeAnimationState("Idle");
         isDead = false;
+        didWin = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Potion"))
+        {
+            other.gameObject.SetActive(false);
+            _playerMovement.ChangeAnimationState("Win");
+            gameDirector.LevelCompleted();
+            didWin = true;
+        }
     }
 
     public void GetHit(int damage)
