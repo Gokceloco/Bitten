@@ -29,12 +29,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (_player.isDead)
-        {
-            return;
-        }
-
         var direction = Vector3.zero;
+
+        if (_player.gameDirector.gameState != GameState.GamePlay || _player.isDead)
+        {
+            _rb.linearVelocity = Vector3.zero;
+            return;
+        }        
         if (Input.GetKey(KeyCode.W))
         {
             direction += Vector3.forward;
@@ -119,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
             yVelocity.y -= fallSpeedBonus * Time.deltaTime;
         }
 
-        if (!_isJumping && !_player.didWin)
+        if (!_isJumping)
         {
             if (dir.magnitude > 0)
             {

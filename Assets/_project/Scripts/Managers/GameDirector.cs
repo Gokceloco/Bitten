@@ -6,6 +6,8 @@ public class GameDirector : MonoBehaviour
     public LevelManager levelManager;
     public Player player;
 
+    public GameState gameState;
+
     private void Start()
     {
         RestartLevel();
@@ -49,6 +51,7 @@ public class GameDirector : MonoBehaviour
 
     public void RestartLevel()
     {
+        gameState = GameState.GamePlay;
         levelManager.RestartLevelManager();
         player.RestartPlayer();
     }
@@ -61,13 +64,21 @@ public class GameDirector : MonoBehaviour
 
     public void LevelCompleted()
     {
-        print("LevelCompleted");
-        Invoke(nameof(LoadNextLevel), 2);
+        gameState = GameState.WinUI;
+        Invoke(nameof(LoadNextLevel), 3);
     }
 
     void LevelFailed()
     {
-        print("Level Failed");
-        Invoke(nameof(RestartLevel), 2);
+        gameState = GameState.LoseUI;
+        Invoke(nameof(RestartLevel), 3);
     }
+}
+public enum GameState
+{
+    MainMenu,
+    GamePlay,
+    WinUI,
+    LoseUI,
+    Inventory,
 }

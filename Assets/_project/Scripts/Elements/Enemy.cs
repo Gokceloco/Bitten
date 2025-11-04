@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (actionState == ActionState.Dead || _isPlayerDead)
+        if (actionState == ActionState.Dead || _player.gameDirector.gameState != GameState.GamePlay)
         {
             return;
         }
@@ -166,7 +166,6 @@ public class Enemy : MonoBehaviour
     {
         if (desiredAnimationState == AnimationState.Walk && (currentAnimationState != AnimationState.Walk || forcePlayAnimation))
         {
-            //_animator.SetTrigger("Walk");
             _animator.CrossFade("Walk", .1f);
             currentAnimationState = AnimationState.Walk;
         }
@@ -188,7 +187,6 @@ public class Enemy : MonoBehaviour
         }
         else if (desiredAnimationState == AnimationState.Die && (currentAnimationState != AnimationState.Die || forcePlayAnimation))
         {
-            //_animator.SetTrigger("Die");
             _animator.CrossFade("Die", .1f);
             currentAnimationState = AnimationState.Die;
         }
