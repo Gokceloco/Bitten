@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     public bool isDead;
 
+    public GameObject shadow;
+
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             GetHit(1);
-        }
+        }        
     }
     public void RestartPlayer()
     {
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         healthBar.SetHealthBar(1);
         _playerMovement.ChangeAnimationState("Idle");
         isDead = false;
+        shadow.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,5 +67,11 @@ public class Player : MonoBehaviour
         isDead = true;
         _playerMovement.ChangeAnimationState("Die");
         gameDirector.PlayerDied();
+        DisableShadow();
+    }
+
+    public void DisableShadow()
+    {
+        shadow.SetActive(false);
     }
 }

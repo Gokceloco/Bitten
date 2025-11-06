@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -38,6 +39,9 @@ public class Enemy : MonoBehaviour
     private Coroutine _attackCoroutine;
 
     private bool _isPlayerDead;
+
+    public GameObject shadow;
+    public Light mainLight;
 
     private void Awake()
     {
@@ -235,6 +239,8 @@ public class Enemy : MonoBehaviour
         {
             e.enabled = false;
         }
+        shadow.SetActive(false);
+        mainLight.enabled = false;
         Destroy(gameObject, 3);
     }
 

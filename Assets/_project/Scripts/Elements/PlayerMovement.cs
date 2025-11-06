@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _isJumping = !CheckIfLanded();
+        
 
         if (Input.GetKeyDown(KeyCode.Space) && CheckIfLanded())
         {
@@ -94,6 +95,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CheckIfLanded()
     {
+        if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, out RaycastHit hit, 2f, jumpLayers))
+        {
+            _player.shadow.transform.position = hit.point + Vector3.up * .01f;
+        }
         if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, .3f, jumpLayers))
         {
             return true;
