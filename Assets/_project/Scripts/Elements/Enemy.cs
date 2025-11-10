@@ -38,8 +38,6 @@ public class Enemy : MonoBehaviour
 
     private Coroutine _attackCoroutine;
 
-    private bool _isPlayerDead;
-
     public GameObject shadow;
     public Light mainLight;
 
@@ -136,7 +134,6 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(_attackCoroutine);
         }
-        _isPlayerDead = true;
         _navMeshAgent.isStopped = true;
         SwitchAnimation(AnimationState.Idle);
     }
