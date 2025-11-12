@@ -41,12 +41,15 @@ public class Enemy : MonoBehaviour
     public GameObject shadow;
     public Light mainLight;
 
+    private HitFlash _hitFlash;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
+        _hitFlash = GetComponent<HitFlash>();
     }
 
     public void StartEnemy(Player player)
@@ -205,6 +208,7 @@ public class Enemy : MonoBehaviour
         _currentHealth -= damage;
         StartCoroutine(PlayGetHitCoroutine());
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
+        _hitFlash.PlayHitFlash();
         if (_currentHealth <= 0)
         {
             Die();
