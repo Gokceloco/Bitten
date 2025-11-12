@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public GameDirector gameDirector;
     public WeaponType weaponType;
 
     public Bullet bulletPrefab;
