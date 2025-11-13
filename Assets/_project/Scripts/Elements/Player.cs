@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             _playerMovement.ChangeAnimationState("Win");
+            gameDirector.fXManager.PlayPotionCollectPS(other.transform.position);
             gameDirector.LevelCompleted();
         }
     }

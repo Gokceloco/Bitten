@@ -1297,6 +1297,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FXManager
   impactPS: {fileID: 6280281539998945384, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
   zombieImpactPS: {fileID: 6280281539998945384, guid: 229dc258dd9c24d448b3cc33a9766bee, type: 3}
+  potionCollectPS: {fileID: 8700035473269227422, guid: 2396b7b138ce0644ca754f8a1c55d25c, type: 3}
+  zombieExpirePS: {fileID: 2413333106277601229, guid: f864840586a867542998e156b6d17d27, type: 3}
   floatingTextPrefab: {fileID: -1949648105036441834, guid: b396c810b9fb06542ae41f1ca218555b, type: 3}
 --- !u!4 &1487943170
 Transform:

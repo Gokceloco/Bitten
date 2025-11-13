@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour
 
     private HitFlash _hitFlash;
 
+    public Transform chestBone;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -242,7 +244,8 @@ public class Enemy : MonoBehaviour
             e.enabled = false;
         }
         shadow.SetActive(false);
-        mainLight.enabled = false;
+        mainLight.enabled = false;      
+        _player.gameDirector.fXManager.PlayZombieDestroyPSDelayed(2.7f, chestBone);
         Destroy(gameObject, 3);
     }
 

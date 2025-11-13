@@ -9,7 +9,7 @@ public class FloatingText : MonoBehaviour
     {
         damageTMP.text = damage.ToString();
         transform.DOMoveY(transform.position.y + 1.75f, .4f);
-        transform.DOScale(0, .2f).SetDelay(.4f).SetEase(Ease.InBack);
+        transform.DOScale(0, .2f).SetDelay(.4f).SetEase(Ease.InBack).OnComplete(()=>Destroy(gameObject));
         transform.DOMoveX(transform.position.x + Random.Range(-.5f,.5f), .4f);
         transform.DOMoveZ(transform.position.z + Random.Range(-.5f,.5f), .4f);
     }
