@@ -208,6 +208,7 @@ public class Enemy : MonoBehaviour
         _currentHealth -= damage;
         StartCoroutine(PlayGetHitCoroutine());
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
+        _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
         if (_currentHealth <= 0)
         {
