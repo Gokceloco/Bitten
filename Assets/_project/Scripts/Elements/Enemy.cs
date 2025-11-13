@@ -81,7 +81,14 @@ public class Enemy : MonoBehaviour
             }
             else if (_playerLastSeenPosition != Vector3.zero)
             {
-                actionState = ActionState.WalkTowardsPlayerLastSeenPos;                
+                if ((transform.position - _playerLastSeenPosition).magnitude < 1f)
+                {
+                    actionState = ActionState.Standing;
+                }
+                else
+                {
+                    actionState = ActionState.WalkTowardsPlayerLastSeenPos;
+                }
             }
         }
 
@@ -97,6 +104,11 @@ public class Enemy : MonoBehaviour
         else if (actionState == ActionState.Attack)
         {
             AttackPlayer();
+        }
+        else if (actionState == ActionState.Standing)
+        {
+            SwitchAnimation(AnimationState.Idle);
+            _navMeshAgent.isStopped = true;
         }
     }
 
@@ -172,6 +184,7 @@ public class Enemy : MonoBehaviour
     {
         if (desiredAnimationState == AnimationState.Walk && (currentAnimationState != AnimationState.Walk || forcePlayAnimation))
         {
+            _animator.Rebind();
             _animator.CrossFade("Walk", .1f);
             currentAnimationState = AnimationState.Walk;
         }
@@ -212,6 +225,10 @@ public class Enemy : MonoBehaviour
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
         _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
+        if (actionState == ActionState.Standing)
+        {
+            actionState = ActionState.WalkTowardsPlayer;
+        }
         if (_currentHealth <= 0)
         {
             Die();
