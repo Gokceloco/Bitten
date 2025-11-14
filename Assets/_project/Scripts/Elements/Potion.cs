@@ -7,4 +7,9 @@ public class Potion : MonoBehaviour
     {
         transform.DOMoveY(transform.position.y + .5f, 1).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutQuad);
     }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
 }

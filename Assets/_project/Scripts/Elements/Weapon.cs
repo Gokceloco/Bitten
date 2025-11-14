@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
         _timeSinceLastShoot = 0;
         muzzlePS.Play();
         muzzleLight.DOIntensity(50, .05f).SetLoops(2, LoopType.Yoyo);
+        gameDirector.audioManager.PlayShootAS();
     }
 }
 

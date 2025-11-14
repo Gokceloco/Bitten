@@ -45,6 +45,8 @@ public class Enemy : MonoBehaviour
 
     public Transform chestBone;
 
+    private bool _didSeePlayer;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -96,6 +98,11 @@ public class Enemy : MonoBehaviour
         if (actionState == ActionState.WalkTowardsPlayer)
         {
             WalkTowardsPlayer();
+            if (!_didSeePlayer)
+            {
+                _didSeePlayer = true;
+                _player.gameDirector.audioManager.PlayZombieScreamAS();
+            }
         }
         else if (actionState == ActionState.WalkTowardsPlayerLastSeenPos)
         {
@@ -184,7 +191,7 @@ public class Enemy : MonoBehaviour
     {
         if (desiredAnimationState == AnimationState.Walk && (currentAnimationState != AnimationState.Walk || forcePlayAnimation))
         {
-            _animator.Rebind();
+            _animator.ResetTrigger("Idle");
             _animator.CrossFade("Walk", .1f);
             currentAnimationState = AnimationState.Walk;
         }
@@ -225,6 +232,7 @@ public class Enemy : MonoBehaviour
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
         _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
+        _player.gameDirector.audioManager.PlayZombieImpactAS();
         if (actionState == ActionState.Standing)
         {
             actionState = ActionState.WalkTowardsPlayer;

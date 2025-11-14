@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameDirector : MonoBehaviour
 {
     public LevelManager levelManager;
+    public AudioManager audioManager;
     public FXManager fXManager;
     public Player player;
 
@@ -55,6 +56,7 @@ public class GameDirector : MonoBehaviour
         gameState = GameState.GamePlay;
         levelManager.RestartLevelManager();
         player.RestartPlayer();
+        audioManager.PlayAmbientSound();
     }
 
     public void PlayerDied()
@@ -67,12 +69,16 @@ public class GameDirector : MonoBehaviour
     {
         gameState = GameState.WinUI;
         Invoke(nameof(LoadNextLevel), 3);
+        audioManager.PlayVictoryAS();
+        audioManager.StopAmbientSound();
     }
 
     void LevelFailed()
     {
         gameState = GameState.LoseUI;
         Invoke(nameof(RestartLevel), 3);
+        audioManager.PlayFailAS();
+        audioManager.StopAmbientSound();
     }
 }
 public enum GameState
