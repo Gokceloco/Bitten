@@ -8,11 +8,13 @@ public class GameDirector : MonoBehaviour
     public FXManager fXManager;
     public Player player;
 
+    public UIManager uIManager;
+
     public GameState gameState;
 
     private void Start()
     {
-        RestartLevel();
+        uIManager.ShowMainMenu();
     }
 
     private void Update()

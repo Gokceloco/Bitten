@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     {
         transform.position = Vector3.zero;
         _currentHealth = startHealth;
-        healthBar.SetHealthBar(1);
-        _playerMovement.ChangeAnimationState("Idle");
+        healthBar.SetHealthBar(1);        
+        _playerMovement.RestartPlayerMovement();
         isDead = false;
         shadow.SetActive(true);
     }

@@ -27,6 +27,12 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
+    public void RestartPlayerMovement()
+    {
+        _rb.constraints = RigidbodyConstraints.FreezeRotation;
+        ChangeAnimationState("Idle");
+    }
+
     private void Update()
     {
         var direction = Vector3.zero;
@@ -148,5 +154,5 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("Die", false);
         _animator.SetBool("Win", false);
         _animator.SetBool(key, true);
-    }
+    }    
 }
