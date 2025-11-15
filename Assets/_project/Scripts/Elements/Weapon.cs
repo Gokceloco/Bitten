@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         _timeSinceLastShoot += Time.deltaTime;
-        if (Input.GetMouseButton(0) && _timeSinceLastShoot > attackRate)
+        if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0) && _timeSinceLastShoot > attackRate)
         {
             Shoot();
         }

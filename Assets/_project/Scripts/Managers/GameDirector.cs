@@ -15,6 +15,7 @@ public class GameDirector : MonoBehaviour
     private void Start()
     {
         uIManager.ShowMainMenu();
+        gameState = GameState.MainMenu;
     }
 
     private void Update()
