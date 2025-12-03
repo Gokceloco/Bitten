@@ -14,8 +14,8 @@ public class GameDirector : MonoBehaviour
 
     private void Start()
     {
-        uIManager.ShowMainMenu();
         gameState = GameState.MainMenu;
+        uIManager.ShowMainMenu();
     }
 
     private void Update()
@@ -44,7 +44,7 @@ public class GameDirector : MonoBehaviour
         RestartLevel();
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         levelManager.currentLevelNo++;
         if (levelManager.currentLevelNo >= levelManager.levelPrefabs.Count)
@@ -71,15 +71,15 @@ public class GameDirector : MonoBehaviour
     public void LevelCompleted()
     {
         gameState = GameState.WinUI;
-        Invoke(nameof(LoadNextLevel), 3);
         audioManager.PlayVictoryAS();
         audioManager.StopAmbientSound();
+        uIManager.ShowWinUI(3);
     }
 
     void LevelFailed()
     {
         gameState = GameState.LoseUI;
-        Invoke(nameof(RestartLevel), 3);
+        uIManager.ShowFailUI(2);
         audioManager.PlayFailAS();
         audioManager.StopAmbientSound();
     }
