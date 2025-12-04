@@ -91,4 +91,5 @@ public enum GameState
     WinUI,
     LoseUI,
     Inventory,
+    EscapeMenu,
 }
