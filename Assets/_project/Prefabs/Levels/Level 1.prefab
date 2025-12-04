@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba3988a64dd92f42a25652671a455bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelTime: 30
 --- !u!114 &1932628566409308857
 MonoBehaviour:
   m_ObjectHideFlags: 0

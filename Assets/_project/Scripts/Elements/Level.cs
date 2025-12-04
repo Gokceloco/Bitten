@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    public float levelTime;
     private LevelManager _levelManager;
 
     private List<Enemy> _enemies = new List<Enemy>();

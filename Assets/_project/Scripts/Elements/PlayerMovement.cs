@@ -101,9 +101,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CheckIfLanded()
     {
-        if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, out RaycastHit hit, 2f, jumpLayers))
+        if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, out RaycastHit hit, 3f, jumpLayers))
         {
+            _player.EnableShadow();
             _player.shadow.transform.position = hit.point + Vector3.up * .01f;
+        }
+        else
+        {
+            _player.DisableShadow();
         }
         if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, .3f, jumpLayers))
         {
@@ -152,7 +157,13 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("Run", false);
         _animator.SetBool("Jump", false);
         _animator.SetBool("Die", false);
+        _animator.SetBool("Die2", false);
         _animator.SetBool("Win", false);
         _animator.SetBool(key, true);
-    }    
+    }
+
+    public void PlayAlternativeFailAnimation()
+    {
+        ChangeAnimationState("Die2");
+    }
 }

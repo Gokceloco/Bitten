@@ -23,10 +23,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (transform.position.y < -10f && gameDirector.gameState == GameState.GamePlay)
         {
-            GetHit(1);
-        }        
+            gameDirector.LevelFailed(0);
+        }      
     }
     public void RestartPlayer()
     {
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         healthBar.SetHealthBar(1);        
         _playerMovement.RestartPlayerMovement();
         isDead = false;
-        shadow.SetActive(true);
+        EnableShadow();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,12 +67,21 @@ public class Player : MonoBehaviour
     {
         isDead = true;
         _playerMovement.ChangeAnimationState("Die");
-        gameDirector.PlayerDied();
+        gameDirector.LevelFailed(2);
         DisableShadow();
     }
 
     public void DisableShadow()
     {
         shadow.SetActive(false);
+    }
+    public void EnableShadow()
+    {
+        shadow.SetActive(true);
+    }
+
+    public void PlayAlternativeFailAnimation()
+    {
+        _playerMovement.PlayAlternativeFailAnimation();
     }
 }
