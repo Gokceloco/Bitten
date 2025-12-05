@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource fail1AS;
     public AudioSource fail2AS;
 
+    public AudioSource timeTickAS;
+
     public AudioSource zombieScreamAS;
 
     public void PlayShootAS()
@@ -23,6 +25,11 @@ public class AudioManager : MonoBehaviour
     public void PlayZombieImpactAS()
     {
         zombieImpactAS.Play();
+    }
+
+    public void PlayTimeTickAS()
+    {
+        timeTickAS.Play();
     }
 
     public void PlayAmbientSound()

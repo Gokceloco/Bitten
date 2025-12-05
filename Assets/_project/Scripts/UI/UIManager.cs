@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public WinUI winUI;
     public FailUI failUI;
     public EscapeMenu escapeMenu;
+    public TimerUI timerUI;
 
     private void Update()
     {
@@ -23,15 +24,32 @@ public class UIManager : MonoBehaviour
         winUI.Hide();
         failUI.Hide();
         escapeMenu.Hide();
+        HideInGameUI();
     }
-
     public void ShowEscapeMenu()
     {
         Time.timeScale = 0;
         escapeMenu.Show(0);
         gameDirector.gameState = GameState.EscapeMenu;
     }
+    public void ShowWinUI(float delay)
+    {
+        winUI.Show(delay);
+    }
+    public void ShowFailUI(float delay)
+    {
+        failUI.Show(delay);
+    }
+    public void ShowInGameUI()
+    {
+        timerUI.Show();
+    }
+    public void HideInGameUI()
+    {
+        timerUI.Hide();
+    }
 
+    //Callback Functions
     public void ResumeButtonPressed()
     {
         Time.timeScale = 1;
@@ -43,12 +61,10 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         ShowMainMenu();
     }
-
     public void ExitButtonPressed()
     {
         Application.Quit();
     }
-
     public void StartGameButtonPressed()
     {
         mainMenu.Hide();
@@ -63,14 +79,5 @@ public class UIManager : MonoBehaviour
     {
         failUI.Hide();
         gameDirector.RestartLevel();
-    }
-
-    public void ShowWinUI(float delay)
-    {
-        winUI.Show(delay);
-    }
-    public void ShowFailUI(float delay)
-    {
-        failUI.Show(delay);
     }
 }

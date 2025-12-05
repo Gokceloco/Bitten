@@ -61,6 +61,7 @@ public class GameDirector : MonoBehaviour
         player.RestartPlayer();
         audioManager.PlayAmbientSound();
         timerManager.RestartTimerManager(levelManager.GetCurrentLevelTime());
+        uIManager.ShowInGameUI();
     }
 
     public void LevelCompleted()
@@ -69,6 +70,7 @@ public class GameDirector : MonoBehaviour
         audioManager.PlayVictoryAS();
         audioManager.StopAmbientSound();
         uIManager.ShowWinUI(3);
+        uIManager.HideInGameUI();
     }
 
     public void LevelFailed(float delay)
@@ -78,6 +80,7 @@ public class GameDirector : MonoBehaviour
         uIManager.ShowFailUI(delay);
         audioManager.PlayFailAS();
         audioManager.StopAmbientSound();
+        uIManager.HideInGameUI();
     }
 }
 public enum GameState

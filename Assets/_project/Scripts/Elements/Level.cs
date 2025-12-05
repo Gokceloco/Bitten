@@ -26,4 +26,9 @@ public class Level : MonoBehaviour
             e.SetPlayerDead();
         }
     }
+
+    public void EnemyDestroyed(Enemy enemy)
+    {
+        _enemies.Remove(enemy);
+    }
 }

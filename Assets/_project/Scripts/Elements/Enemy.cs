@@ -271,6 +271,7 @@ public class Enemy : MonoBehaviour
         shadow.SetActive(false);
         mainLight.enabled = false;      
         _player.gameDirector.fXManager.PlayZombieDestroyPSDelayed(2.7f, chestBone);
+        GetComponentInParent<Level>().EnemyDestroyed(this);
         Destroy(gameObject, 3);
     }
 
