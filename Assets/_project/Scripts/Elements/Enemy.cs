@@ -232,7 +232,7 @@ public class Enemy : MonoBehaviour
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
         _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
-        _player.gameDirector.audioManager.PlayZombieImpactAS();
+        _player.gameDirector.audioManager.PlayHitAS();
         if (actionState == ActionState.Standing)
         {
             actionState = ActionState.WalkTowardsPlayer;

@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     {
         shootAS.Play();
     }
-    public void PlayZombieImpactAS()
+    public void PlayHitAS()
     {
         zombieImpactAS.Play();
     }

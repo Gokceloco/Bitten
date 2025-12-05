@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
         }
         _currentHealth -= damage;
         healthBar.SetHealthBar((float)_currentHealth / startHealth);
+        gameDirector.uIManager.getHitUI.ShowGetHitGradient();
+        gameDirector.audioManager.PlayHitAS();
         if (_currentHealth <= 0)
         {
             Die();

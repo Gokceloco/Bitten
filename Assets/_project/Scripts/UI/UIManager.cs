@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public FailUI failUI;
     public EscapeMenu escapeMenu;
     public TimerUI timerUI;
+    public GetHitUI getHitUI;
 
     private void Update()
     {
@@ -43,10 +44,12 @@ public class UIManager : MonoBehaviour
     public void ShowInGameUI()
     {
         timerUI.Show();
+        getHitUI.Show();
     }
     public void HideInGameUI()
     {
         timerUI.Hide();
+        getHitUI.Hide();
     }
 
     //Callback Functions
