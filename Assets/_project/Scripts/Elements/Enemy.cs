@@ -1,6 +1,5 @@
 using DG.Tweening;
 using Mono.Cecil.Cil;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +44,7 @@ public class Enemy : MonoBehaviour
 
     public Transform chestBone;
 
-    private bool _didSeePlayer;
+    private bool _didSeePlayer;    
 
     private void Awake()
     {
@@ -272,6 +271,10 @@ public class Enemy : MonoBehaviour
         mainLight.enabled = false;      
         _player.gameDirector.fXManager.PlayZombieDestroyPSDelayed(2.7f, chestBone);
         GetComponentInParent<Level>().EnemyDestroyed(this);
+        for (int i = 0; i < Random.Range(1,4); i++)
+        {
+            SpawnCollectable();
+        }
         Destroy(gameObject, 3);
     }
 
@@ -282,6 +285,16 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(_attackCoroutine);
         }
+    }
+
+    public Collectable collectablePrefab;
+
+    private void SpawnCollectable()
+    {
+        var newCollectable = Instantiate(collectablePrefab);
+        newCollectable.transform.position = transform.position + Vector3.up;
+        var force = new Vector3(Random.Range(-100f,100f), 200f, Random.Range(-100f, 100f));
+        newCollectable.GetComponent<Rigidbody>().AddForce(force);
     }
 }
 

@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     public GameObject shadow;
 
+    public ParticleSystem collectedPS;
+
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
@@ -85,5 +87,12 @@ public class Player : MonoBehaviour
     public void PlayAlternativeFailAnimation()
     {
         _playerMovement.PlayAlternativeFailAnimation();
+    }
+
+    public void CollectableCollected()
+    {
+        collectedPS.Play();
+        gameDirector.timerManager.CollectableCollected();
+        gameDirector.audioManager.PlayCollectedAS();
     }
 }

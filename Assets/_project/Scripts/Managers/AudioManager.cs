@@ -18,6 +18,13 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource zombieScreamAS;
 
+    public AudioSource collectedAS;
+
+    public void PlayCollectedAS()
+    {
+        collectedAS.Play();
+    }
+
     public void PlayShootAS()
     {
         shootAS.Play();

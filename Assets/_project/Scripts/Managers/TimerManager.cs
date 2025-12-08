@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour
@@ -12,6 +13,11 @@ public class TimerManager : MonoBehaviour
     {
         _remainingTime = levelTime;
         _totalTime = levelTime;
+    }
+
+    public void CollectableCollected()
+    {
+        _remainingTime += 1f;
     }
 
     private void Update()
