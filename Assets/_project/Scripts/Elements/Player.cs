@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
         if (transform.position.y < -10f && gameDirector.gameState == GameState.GamePlay)
         {
             gameDirector.LevelFailed(0);
-        }      
+        }
     }
     public void RestartPlayer()
     {

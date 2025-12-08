@@ -193,7 +193,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 6
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6674495953837905224
 MonoBehaviour:
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e77973f4975a5fc4eb563b6d3956f6ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
-  speed: 20
+  speed: 15
   collisionCollider: {fileID: 8048724817199150332}
 --- !u!1001 &8645912326775948685
 PrefabInstance:

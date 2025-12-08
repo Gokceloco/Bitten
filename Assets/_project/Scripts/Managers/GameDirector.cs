@@ -62,6 +62,11 @@ public class GameDirector : MonoBehaviour
         audioManager.PlayAmbientSound();
         timerManager.RestartTimerManager(levelManager.GetCurrentLevelTime());
         uIManager.ShowInGameUI();
+        if (levelManager.currentLevelNo == 1)
+        {
+            uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
+            uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);
+        }
     }
 
     public void LevelCompleted()

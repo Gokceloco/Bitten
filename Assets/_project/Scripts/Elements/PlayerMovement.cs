@@ -94,6 +94,10 @@ public class PlayerMovement : MonoBehaviour
 
         SetWalkDirection(Vector3.SignedAngle(transform.forward, _direction, Vector3.up));
         dashPS.transform.position = transform.position + Vector3.up;
+        if (spaceKeyBehaviour == SpaceKeyBehaviour.Dash && transform.position.y > 0.1f)
+        {
+            transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
+        }
     }
 
     public float dashDuration;
