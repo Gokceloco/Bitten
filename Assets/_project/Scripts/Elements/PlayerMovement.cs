@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float fallSpeedBonus;
 
+    public SpaceKeyBehaviour spaceKeyBehaviour;
+
     private Rigidbody _rb;
 
     public LayerMask jumpLayers;
@@ -18,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isJumping;
     private Player _player;
+
+    private Vector3 _direction;
 
 
     private void Awake()
@@ -35,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        var direction = Vector3.zero;
+        _direction = Vector3.zero;
 
         if (_player.gameDirector.gameState != GameState.GamePlay || _player.isDead)
         {
@@ -44,19 +49,19 @@ public class PlayerMovement : MonoBehaviour
         }        
         if (Input.GetKey(KeyCode.W))
         {
-            direction += Vector3.forward;
+            _direction += Vector3.forward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            direction += Vector3.back;
+            _direction += Vector3.back;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            direction += Vector3.left;
+            _direction += Vector3.left;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            direction += Vector3.right;
+            _direction += Vector3.right;
         }
 
         var speed = walkSpeed;
@@ -71,13 +76,40 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && CheckIfLanded())
         {
-            Jump();
+            if (spaceKeyBehaviour == SpaceKeyBehaviour.Jump)
+            {
+                Jump();
+            }
+            else if (!_isDashing)
+            {
+                StartCoroutine(Dash());
+            }
         }
 
-        MovePlayer(direction, speed);
+        if (!_isDashing)
+        {
+            MovePlayer(_direction, speed);
+        }
         LookAtMouse();
 
-        SetWalkDirection(Vector3.SignedAngle(transform.forward, direction, Vector3.up));
+        SetWalkDirection(Vector3.SignedAngle(transform.forward, _direction, Vector3.up));
+        dashPS.transform.position = transform.position + Vector3.up;
+    }
+
+    public float dashDuration;
+    public float dashForce;
+    private bool _isDashing;
+    public ParticleSystem dashPS;
+
+    IEnumerator Dash()
+    {
+        _isDashing = true;
+        _rb.AddForce(dashForce * _direction);
+        dashPS.transform.LookAt(dashPS.transform.position - _direction);
+        dashPS.Play();
+        _player.gameDirector.audioManager.PlayDashAS();
+        yield return new WaitForSeconds(dashDuration);
+        _isDashing = false;
     }
 
     void SetWalkDirection(float angle)
@@ -166,4 +198,10 @@ public class PlayerMovement : MonoBehaviour
     {
         ChangeAnimationState("Die2");
     }
+}
+
+public enum SpaceKeyBehaviour
+{
+    Jump,
+    Dash,
 }

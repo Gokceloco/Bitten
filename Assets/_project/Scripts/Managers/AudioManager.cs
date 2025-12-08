@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -19,6 +20,13 @@ public class AudioManager : MonoBehaviour
     public AudioSource zombieScreamAS;
 
     public AudioSource collectedAS;
+
+    public List<AudioSource> dashASs;
+
+    public void PlayDashAS()
+    {
+        dashASs[Random.Range(0, dashASs.Count)].Play();
+    }
 
     public void PlayCollectedAS()
     {
