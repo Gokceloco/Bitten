@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _direction;
 
+    public float startStamina;
+    private float _currentStamina;
+    public HealthBar staminaBar;
+
 
     private void Awake()
     {
@@ -36,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb.constraints = RigidbodyConstraints.FreezeRotation;
         ChangeAnimationState("Idle");
+        _currentStamina = startStamina;
     }
 
     private void Update()
@@ -68,8 +73,32 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = runSpeed;
+            if (_currentStamina > 0)
+            {
+                speed = runSpeed;
+                if (_direction.magnitude > 0)
+                {
+                    _currentStamina -= Time.deltaTime;
+                }
+            }            
         }
+        else if (_currentStamina < startStamina)
+        {
+            if (_direction.magnitude == 0)
+            {
+                _currentStamina += Time.deltaTime;
+            }
+            else
+            {
+                _currentStamina += Time.deltaTime * .5f;
+            }
+        }
+
+        _currentStamina = Mathf.Clamp(_currentStamina, 0, startStamina);
+
+        staminaBar.SetFillBar(_currentStamina / startStamina);
+
+        staminaBar.transform.position = transform.position + Vector3.right + Vector3.up;
 
         _isJumping = !CheckIfLanded();
         

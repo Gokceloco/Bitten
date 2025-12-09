@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
     public void StartEnemy(Player player)
     {
         _currentHealth = startHealth;
-        healthBar.SetHealthBar(1);
+        healthBar.SetFillBar(1);
         _player = player;
     }
 
@@ -228,7 +228,7 @@ public class Enemy : MonoBehaviour
     {
         _currentHealth -= damage;
         StartCoroutine(PlayGetHitCoroutine());
-        healthBar.SetHealthBar((float)_currentHealth / startHealth);
+        healthBar.SetFillBar((float)_currentHealth / startHealth);
         _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
         _player.gameDirector.audioManager.PlayHitAS();

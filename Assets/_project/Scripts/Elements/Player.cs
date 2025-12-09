@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     {
         transform.position = Vector3.zero;
         _currentHealth = startHealth;
-        healthBar.SetHealthBar(1);        
+        healthBar.SetFillBar(1);        
         _playerMovement.RestartPlayerMovement();
         isDead = false;
         EnableShadow();
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
             return;
         }
         _currentHealth -= damage;
-        healthBar.SetHealthBar((float)_currentHealth / startHealth);
+        healthBar.SetFillBar((float)_currentHealth / startHealth);
         gameDirector.uIManager.getHitUI.ShowGetHitGradient();
         gameDirector.audioManager.PlayHitAS();
         if (_currentHealth <= 0)
