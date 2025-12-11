@@ -103,9 +103,9 @@ public class PlayerMovement : MonoBehaviour
         _isJumping = !CheckIfLanded();
         
 
-        if (Input.GetKeyDown(KeyCode.Space) && CheckIfLanded())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (spaceKeyBehaviour == SpaceKeyBehaviour.Jump)
+            if (CheckIfLanded() && spaceKeyBehaviour == SpaceKeyBehaviour.Jump)
             {
                 Jump();
             }
@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(transform.position + Vector3.up * .1f, Vector3.down, out RaycastHit hit, 3f, jumpLayers))
         {
             _player.EnableShadow();
-            _player.shadow.transform.position = hit.point + Vector3.up * .01f;
+            _player.shadow.transform.position = new Vector3(_player.transform.position.x, .1f, _player.transform.position.z);
         }
         else
         {
@@ -230,6 +230,11 @@ public class PlayerMovement : MonoBehaviour
     public void PlayAlternativeFailAnimation()
     {
         ChangeAnimationState("Die2");
+    }
+
+    public Vector3 GetCurrentDirection()
+    {
+        return _direction;
     }
 }
 

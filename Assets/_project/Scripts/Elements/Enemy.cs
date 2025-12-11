@@ -293,7 +293,7 @@ public class Enemy : MonoBehaviour
     {
         var newCollectable = Instantiate(collectablePrefab);
         newCollectable.transform.position = transform.position + Vector3.up;
-        var force = new Vector3(Random.Range(-100f,100f), 200f, Random.Range(-100f, 100f));
+        var force = new Vector3(Random.Range(-50f,50f), 200f, Random.Range(-50f, 50f));
         newCollectable.GetComponent<Rigidbody>().AddForce(force);
     }
 }

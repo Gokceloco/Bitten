@@ -24,8 +24,11 @@ public class HealthBar : MonoBehaviour
     public void SetFillBar(float ratio)
     {
         fillBarParent.transform.localScale = new Vector3(ratio, 1, 1);
-        fillBarWhiteParent.DOKill();
-        fillBarWhiteParent.DOScale(new Vector3(ratio, 1, 1), .2f).SetDelay(.1f);
+        if (!isStaminaBar)
+        {
+            fillBarWhiteParent.DOKill();
+            fillBarWhiteParent.DOScale(new Vector3(ratio, 1, 1), .2f).SetDelay(.1f);
+        }        
         fillBarSpriteRenderer.DOKill();
         if (!isStaminaBar)
         {

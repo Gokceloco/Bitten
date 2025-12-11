@@ -95,4 +95,9 @@ public class Player : MonoBehaviour
         gameDirector.timerManager.CollectableCollected();
         gameDirector.audioManager.PlayCollectedAS();
     }
+
+    public Vector3 GetCurrentDirection()
+    {
+        return _playerMovement.GetCurrentDirection();
+    }
 }

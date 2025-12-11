@@ -18,18 +18,27 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        _timeSinceLastShoot += Time.deltaTime;
-        if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0) && _timeSinceLastShoot > attackRate)
+        var spread = 0f;
+        var attackRateNurf = 0f;
+        if (gameDirector.player.GetCurrentDirection().magnitude > 0)
         {
-            Shoot();
+            spread = .15f;
+            attackRateNurf = .1f;
+        }
+        _timeSinceLastShoot += Time.deltaTime;
+        if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0) 
+            && _timeSinceLastShoot > attackRate + attackRateNurf)
+        {
+            Shoot(spread);
         }
     }
 
-    public void Shoot()
+    public void Shoot(float spread)
     {
         var newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = shootPosition.position;
-        newBullet.transform.LookAt(shootPosition.position + shootPosition.forward);
+        newBullet.transform.LookAt(shootPosition.position + shootPosition.forward 
+            + new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), 0));
         newBullet.StartBullet(this);
         _timeSinceLastShoot = 0;
         muzzlePS.Play();
