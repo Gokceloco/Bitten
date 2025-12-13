@@ -60,6 +60,10 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         escapeMenu.Hide();
+        Invoke(nameof(ChangeGameStateToGamePlay), .1f);
+    }
+    void ChangeGameStateToGamePlay()
+    {
         gameDirector.gameState = GameState.GamePlay;
     }
     public void MainMenuButtonPressed()

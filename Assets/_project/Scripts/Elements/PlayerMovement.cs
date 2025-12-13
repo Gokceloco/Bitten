@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
 
     private bool _isJumping;
+    public bool isSwitchingWeapon;
     private Player _player;
 
     private Vector3 _direction;
@@ -201,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
             yVelocity.y -= fallSpeedBonus * Time.deltaTime;
         }
 
-        if (!_isJumping)
+        if (!_isJumping && !isSwitchingWeapon)
         {
             if (dir.magnitude > 0)
             {
@@ -224,6 +225,7 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("Die", false);
         _animator.SetBool("Die2", false);
         _animator.SetBool("Win", false);
+        _animator.SetBool("ChangeWeapon", false);
         _animator.SetBool(key, true);
     }
 
@@ -235,6 +237,14 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetCurrentDirection()
     {
         return _direction;
+    }
+    public void SetUpperBodyLayerWeightTo1()
+    {
+        _animator.SetLayerWeight(1, 1);
+    }
+    public void SetUpperBodyLayerWeightTo0()
+    {
+        _animator.SetLayerWeight(1, 0);
     }
 }
 

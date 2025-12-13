@@ -56,7 +56,7 @@ public class GameDirector : MonoBehaviour
 
     public void RestartLevel()
     {
-        gameState = GameState.GamePlay;
+        Invoke(nameof(ChangeGameStateToGamePlay), .1f);
         levelManager.RestartLevelManager();
         player.RestartPlayer();
         audioManager.PlayAmbientSound();
@@ -67,6 +67,11 @@ public class GameDirector : MonoBehaviour
             uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
             uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);
         }
+    }
+
+    void ChangeGameStateToGamePlay()
+    {
+        gameState = GameState.GamePlay;
     }
 
     public void LevelCompleted()

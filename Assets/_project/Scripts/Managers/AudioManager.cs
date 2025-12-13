@@ -23,11 +23,16 @@ public class AudioManager : MonoBehaviour
 
     public List<AudioSource> dashASs;
 
+    public AudioSource shotgunShootAS;
+
     public void PlayDashAS()
     {
         dashASs[Random.Range(0, dashASs.Count)].Play();
     }
-
+    public void PlayShotgunShootAS()
+    {
+        shotgunShootAS.Play();
+    }
     public void PlayCollectedAS()
     {
         collectedAS.Play();

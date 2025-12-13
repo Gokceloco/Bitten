@@ -18,6 +18,11 @@ public class Player : MonoBehaviour
 
     public ParticleSystem collectedPS;
 
+    public Weapon machinegun;
+    public Weapon shotgun;
+
+    private WeaponType _curWeaponType;
+
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
@@ -29,7 +34,43 @@ public class Player : MonoBehaviour
         {
             gameDirector.LevelFailed(0);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1) && _curWeaponType != WeaponType.MachineGun)
+        {
+            SwitchToMachineGun();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && _curWeaponType != WeaponType.Shotgun)
+        {
+            SwitchToShotGun();
+        }
     }
+
+    private void SwitchToMachineGun()
+    {
+        machinegun.gameObject.SetActive(true);
+        shotgun.gameObject.SetActive(false);
+        _playerMovement.ChangeAnimationState("ChangeWeapon");
+        _curWeaponType = WeaponType.MachineGun;
+        _playerMovement.isSwitchingWeapon = true;
+        _playerMovement.SetUpperBodyLayerWeightTo1();
+        Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+    }
+    private void SwitchToShotGun()
+    {
+        machinegun.gameObject.SetActive(false);
+        shotgun.gameObject.SetActive(true);
+        _playerMovement.ChangeAnimationState("ChangeWeapon");
+        _curWeaponType = WeaponType.Shotgun;
+        _playerMovement.isSwitchingWeapon = true;
+        _playerMovement.SetUpperBodyLayerWeightTo1();
+        Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+    }
+
+    void SetSwitchingWeaponFalse()
+    {
+        _playerMovement.isSwitchingWeapon = false;
+        _playerMovement.SetUpperBodyLayerWeightTo0();
+    }
+
     public void RestartPlayer()
     {
         transform.position = Vector3.zero;
@@ -99,5 +140,5 @@ public class Player : MonoBehaviour
     public Vector3 GetCurrentDirection()
     {
         return _playerMovement.GetCurrentDirection();
-    }
+    }    
 }

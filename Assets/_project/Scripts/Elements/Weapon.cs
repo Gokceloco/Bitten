@@ -15,21 +15,44 @@ public class Weapon : MonoBehaviour
     public ParticleSystem muzzlePS;
     public Light muzzleLight;
 
+    public float shotgunSpread;
+
 
     private void Update()
     {
-        var spread = 0f;
-        var attackRateNurf = 0f;
-        if (gameDirector.player.GetCurrentDirection().magnitude > 0)
-        {
-            spread = .15f;
-            attackRateNurf = .1f;
-        }
         _timeSinceLastShoot += Time.deltaTime;
-        if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0) 
-            && _timeSinceLastShoot > attackRate + attackRateNurf)
+
+        if (weaponType == WeaponType.MachineGun)
         {
-            Shoot(spread);
+            var spread = 0f;
+            var attackRateNurf = 0f;
+            if (gameDirector.player.GetCurrentDirection().magnitude > 0)
+            {
+                spread = .15f;
+                attackRateNurf = .1f;
+            }
+            if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0)
+                && _timeSinceLastShoot > attackRate + attackRateNurf)
+            {
+                Shoot(spread);
+                muzzlePS.Play();
+                muzzleLight.DOIntensity(50, .05f).SetLoops(2, LoopType.Yoyo);
+                gameDirector.audioManager.PlayShootAS();
+            }
+        }
+        else if (weaponType == WeaponType.Shotgun)
+        {
+            if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButtonUp(0)
+                && _timeSinceLastShoot > attackRate)
+            {
+                for (global::System.Int32 i = 0; i < 20; i++)
+                {
+                    Shoot(shotgunSpread);
+                }
+                muzzlePS.Play();
+                muzzleLight.DOIntensity(50, .05f).SetLoops(2, LoopType.Yoyo);
+                gameDirector.audioManager.PlayShotgunShootAS();
+            }
         }
     }
 
@@ -40,10 +63,7 @@ public class Weapon : MonoBehaviour
         newBullet.transform.LookAt(shootPosition.position + shootPosition.forward 
             + new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), 0));
         newBullet.StartBullet(this);
-        _timeSinceLastShoot = 0;
-        muzzlePS.Play();
-        muzzleLight.DOIntensity(50, .05f).SetLoops(2, LoopType.Yoyo);
-        gameDirector.audioManager.PlayShootAS();
+        _timeSinceLastShoot = 0;        
     }
 }
 
