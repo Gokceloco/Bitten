@@ -30,8 +30,15 @@ public class Bullet : MonoBehaviour
         }
         if (other.CompareTag("Enemy"))
         {
+            var damage = 1;
             _weapon.gameDirector.fXManager.PlayZombieImpactPS(transform.position, transform.forward);
-            other.GetComponent<Enemy>().GetHit(1);
+            var angle = Vector3.Angle(transform.forward, other.transform.forward);
+            if (angle < 90)
+            {
+                _weapon.gameDirector.audioManager.PlayPositiveAS();
+                damage *= 2;
+            }
+            other.GetComponent<Enemy>().GetHit(damage);
             Destroy(gameObject);
         }
     }

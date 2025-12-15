@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
     public int startHealth;
     private int _currentHealth;
 
-    public float speed;
     public float playerWalkTowardsDistance;
     public float playerAttackDistance;
 
@@ -208,7 +207,7 @@ public class Enemy : MonoBehaviour
         {
             _animator.SetTrigger("GetHit");
             currentAnimationState = AnimationState.GetHit;
-            StartCoroutine(UpperBodyMaskCoroutine(.3f, .5f));
+            StartCoroutine(UpperBodyMaskCoroutine(.4f, .5f));
         }
         else if (desiredAnimationState == AnimationState.Die && (currentAnimationState != AnimationState.Die || forcePlayAnimation))
         {

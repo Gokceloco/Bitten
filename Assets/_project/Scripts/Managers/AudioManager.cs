@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -24,10 +25,15 @@ public class AudioManager : MonoBehaviour
     public List<AudioSource> dashASs;
 
     public AudioSource shotgunShootAS;
+    public AudioSource positiveAS;
 
     public void PlayDashAS()
     {
         dashASs[Random.Range(0, dashASs.Count)].Play();
+    }
+    public void PlayPositiveAS()
+    {
+        positiveAS.Play();
     }
     public void PlayShotgunShootAS()
     {
