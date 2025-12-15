@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public TimerUI timerUI;
     public GetHitUI getHitUI;
     public MessageUI messageUI;
+    public InventoryUI inventoryUI;
 
     private void Update()
     {
@@ -47,12 +48,14 @@ public class UIManager : MonoBehaviour
         timerUI.Show();
         getHitUI.Show();
         messageUI.Show();
+        inventoryUI.Show();
     }
     public void HideInGameUI()
     {
         timerUI.Hide();
         getHitUI.Hide();
         messageUI.Hide();
+        inventoryUI.Hide();
     }
 
     //Callback Functions

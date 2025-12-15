@@ -34,35 +34,41 @@ public class Player : MonoBehaviour
         {
             gameDirector.LevelFailed(0);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1) && _curWeaponType != WeaponType.MachineGun)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchToMachineGun();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && _curWeaponType != WeaponType.Shotgun)
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SwitchToShotGun();
         }
     }
 
-    private void SwitchToMachineGun()
+    public void SwitchToMachineGun()
     {
-        machinegun.gameObject.SetActive(true);
-        shotgun.gameObject.SetActive(false);
-        _playerMovement.ChangeAnimationState("ChangeWeapon");
-        _curWeaponType = WeaponType.MachineGun;
-        _playerMovement.isSwitchingWeapon = true;
-        _playerMovement.SetUpperBodyLayerWeightTo1();
-        Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+        if (_curWeaponType != WeaponType.MachineGun)
+        {
+            machinegun.gameObject.SetActive(true);
+            shotgun.gameObject.SetActive(false);
+            _playerMovement.ChangeAnimationState("ChangeWeapon");
+            _curWeaponType = WeaponType.MachineGun;
+            _playerMovement.isSwitchingWeapon = true;
+            _playerMovement.SetUpperBodyLayerWeightTo1();
+            Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+        }        
     }
-    private void SwitchToShotGun()
+    public void SwitchToShotGun()
     {
-        machinegun.gameObject.SetActive(false);
-        shotgun.gameObject.SetActive(true);
-        _playerMovement.ChangeAnimationState("ChangeWeapon");
-        _curWeaponType = WeaponType.Shotgun;
-        _playerMovement.isSwitchingWeapon = true;
-        _playerMovement.SetUpperBodyLayerWeightTo1();
-        Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+        if (_curWeaponType != WeaponType.Shotgun)
+        {
+            machinegun.gameObject.SetActive(false);
+            shotgun.gameObject.SetActive(true);
+            _playerMovement.ChangeAnimationState("ChangeWeapon");
+            _curWeaponType = WeaponType.Shotgun;
+            _playerMovement.isSwitchingWeapon = true;
+            _playerMovement.SetUpperBodyLayerWeightTo1();
+            Invoke(nameof(SetSwitchingWeaponFalse), .5f);
+        }        
     }
 
     void SetSwitchingWeaponFalse()

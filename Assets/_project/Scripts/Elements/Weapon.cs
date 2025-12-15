@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Weapon : MonoBehaviour
 {
@@ -32,7 +33,8 @@ public class Weapon : MonoBehaviour
                 attackRateNurf = .1f;
             }
             if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButton(0)
-                && _timeSinceLastShoot > attackRate + attackRateNurf)
+                && _timeSinceLastShoot > attackRate + attackRateNurf
+                && !EventSystem.current.IsPointerOverGameObject())
             {
                 Shoot(spread);
                 muzzlePS.Play();
@@ -43,7 +45,8 @@ public class Weapon : MonoBehaviour
         else if (weaponType == WeaponType.Shotgun)
         {
             if (gameDirector.gameState == GameState.GamePlay && Input.GetMouseButtonUp(0)
-                && _timeSinceLastShoot > attackRate)
+                && _timeSinceLastShoot > attackRate
+                && !EventSystem.current.IsPointerOverGameObject())
             {
                 for (global::System.Int32 i = 0; i < 20; i++)
                 {
