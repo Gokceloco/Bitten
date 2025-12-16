@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public GameObject shadow;
 
     public ParticleSystem collectedPS;
+    public ParticleSystem coinCollectedPS;
 
     public Weapon machinegun;
     public Weapon shotgun;
@@ -136,11 +137,21 @@ public class Player : MonoBehaviour
         _playerMovement.PlayAlternativeFailAnimation();
     }
 
-    public void CollectableCollected()
+    public void CollectableCollected(CollectableType type)
     {
-        collectedPS.Play();
-        gameDirector.timerManager.CollectableCollected();
-        gameDirector.audioManager.PlayCollectedAS();
+        if (type == CollectableType.Timer)
+        {
+            collectedPS.Play();
+            gameDirector.timerManager.CollectableCollected();
+            gameDirector.audioManager.PlayCollectedAS();
+        }
+        else if (type == CollectableType.Coin)
+        {
+            coinCollectedPS.Play();
+            gameDirector.coinManager.CoinCollected(1);
+            gameDirector.audioManager.PlayCollectedAS();
+        }
+        
     }
 
     public Vector3 GetCurrentDirection()

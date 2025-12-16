@@ -298,12 +298,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public Collectable collectablePrefab;
+    public Collectable timerCollectablePrefab;
+    public Collectable coinCollectablePrefab;
 
     private void SpawnCollectable()
     {
-        var newCollectable = Instantiate(collectablePrefab);
-        newCollectable.transform.position = transform.position + Vector3.up * 2f;
+        Collectable prefab = timerCollectablePrefab;
+        if (Random.value < .5f)
+        {
+            prefab = coinCollectablePrefab;
+        }
+        var newCollectable = Instantiate(prefab);
+        newCollectable.transform.position = transform.position + Vector3.up * 2f 
+            + Vector3.right * Random.Range(-.5f, .5f) + Vector3.forward * Random.Range(-.5f, .5f);
         var force = new Vector3(Random.Range(-50f,50f), 200f, Random.Range(-50f, 50f));
         newCollectable.GetComponent<Rigidbody>().AddForce(force);
     }

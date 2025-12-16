@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5713119826512516454}
   startHealth: 10
-  speed: 3
   playerWalkTowardsDistance: 20
   playerAttackDistance: 2
   actionState: 0
@@ -140,7 +139,9 @@ MonoBehaviour:
   shadow: {fileID: 4409589093902071844}
   mainLight: {fileID: 8783039255608394199}
   chestBone: {fileID: 3544104668947175629}
-  collectablePrefab: {fileID: 6674495953837905224, guid: 4d0e92f21381aee4d8c1323bf33fea92, type: 3}
+  enemyType: 0
+  timerCollectablePrefab: {fileID: 6674495953837905224, guid: 4d0e92f21381aee4d8c1323bf33fea92, type: 3}
+  coinCollectablePrefab: {fileID: 6674495953837905224, guid: 56fcbad1947452a4f86576c016a94621, type: 3}
 --- !u!114 &3142289959337383438
 MonoBehaviour:
   m_ObjectHideFlags: 0

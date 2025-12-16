@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7077528803362491052}
   - component: {fileID: 6674495953837905224}
   m_Layer: 0
-  m_Name: Collectable
+  m_Name: Time Collectable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

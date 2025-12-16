@@ -7,6 +7,7 @@ public class GameDirector : MonoBehaviour
     public AudioManager audioManager;
     public FXManager fXManager;
     public TimerManager timerManager;
+    public CoinManager coinManager;
     public Player player;
 
     public UIManager uIManager;
