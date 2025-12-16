@@ -43,7 +43,9 @@ public class Enemy : MonoBehaviour
 
     public Transform chestBone;
 
-    private bool _didSeePlayer;    
+    private bool _didSeePlayer;
+
+    public EnemyType enemyType;
 
     private void Awake()
     {
@@ -270,7 +272,17 @@ public class Enemy : MonoBehaviour
         mainLight.enabled = false;      
         _player.gameDirector.fXManager.PlayZombieDestroyPSDelayed(2.7f, chestBone);
         GetComponentInParent<Level>().EnemyDestroyed(this);
-        for (int i = 0; i < Random.Range(1,4); i++)
+
+        var minCollectableCount = 1;
+        var maxCollectableCount = 4;
+
+        if (enemyType == EnemyType.Tough)
+        {
+            minCollectableCount = 3;
+            maxCollectableCount = 8;
+        }
+
+        for (int i = 0; i < Random.Range(minCollectableCount, maxCollectableCount); i++)
         {
             SpawnCollectable();
         }
@@ -291,7 +303,7 @@ public class Enemy : MonoBehaviour
     private void SpawnCollectable()
     {
         var newCollectable = Instantiate(collectablePrefab);
-        newCollectable.transform.position = transform.position + Vector3.up;
+        newCollectable.transform.position = transform.position + Vector3.up * 2f;
         var force = new Vector3(Random.Range(-50f,50f), 200f, Random.Range(-50f, 50f));
         newCollectable.GetComponent<Rigidbody>().AddForce(force);
     }
@@ -312,4 +324,11 @@ public enum AnimationState
     Attack,
     GetHit,
     Die,
+}
+
+public enum EnemyType
+{
+    Basic,
+    Tough,
+    Ranged,
 }

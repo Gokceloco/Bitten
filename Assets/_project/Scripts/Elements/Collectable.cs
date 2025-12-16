@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -12,14 +13,27 @@ public class Collectable : MonoBehaviour
 
     private Rigidbody _rb;
 
+    public float availableTime;
+    private bool _isAvailable;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (other.CompareTag("Player"))
+        transform.localScale = Vector3.zero;
+        transform.DOScale(1, .5f).SetEase(Ease.OutBack);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!_isAvailable)
+        {
+            return;
+        }
+        if (other.CompareTag("Player") && !_isMovingTowardsPlayer)
         {
             _isMovingTowardsPlayer = true;
             _player = other.GetComponent<Player>();
@@ -29,7 +43,12 @@ public class Collectable : MonoBehaviour
 
     private void Update()
     {
-        if (_isMovingTowardsPlayer)
+        availableTime -= Time.deltaTime;
+        if (availableTime <= 0) 
+        {
+            _isAvailable = true;
+        }
+        if (_isMovingTowardsPlayer && _isAvailable)
         {
             var directionVector = (_player.transform.position + Vector3.up) - transform.position;
             var direction = directionVector.normalized;
