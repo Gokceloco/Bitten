@@ -73,13 +73,13 @@ public class Enemy : MonoBehaviour
         {
             actionState = ActionState.Attack;
         }
-        else if (GetDistanceFromPlayer() < playerWalkTowardsDistance && !_isAttackInProgress)
+        else if ((GetDistanceFromPlayer() < playerWalkTowardsDistance || _didSeePlayer) && !_isAttackInProgress)
         {
-            if (GetIfEnemySeesPlayer())
+            if (GetIfEnemySeesPlayer() || _didSeePlayer)
             {
                 actionState = ActionState.WalkTowardsPlayer;
             }
-            else if (_playerLastSeenPosition != Vector3.zero)
+            /*else if (_playerLastSeenPosition != Vector3.zero)
             {
                 if ((transform.position - _playerLastSeenPosition).magnitude < 1f)
                 {
@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
                 {
                     actionState = ActionState.WalkTowardsPlayerLastSeenPos;
                 }
-            }
+            }*/
         }
 
         //Action States
