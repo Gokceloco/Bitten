@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     private float _currentStamina;
     public HealthBar staminaBar;
 
+    public bool isThrowingGrenade;
+
 
     private void Awake()
     {
@@ -202,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
             yVelocity.y -= fallSpeedBonus * Time.deltaTime;
         }
 
-        if (!_isJumping && !isSwitchingWeapon)
+        if (!_isJumping && !isSwitchingWeapon && !isThrowingGrenade)
         {
             if (dir.magnitude > 0)
             {
@@ -226,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("Die2", false);
         _animator.SetBool("Win", false);
         _animator.SetBool("ChangeWeapon", false);
+        _animator.SetBool("ThrowGrenade", false);
         _animator.SetBool(key, true);
     }
 

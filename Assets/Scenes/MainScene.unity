@@ -5550,6 +5550,11 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7373644630128741146, guid: fbd516f7747f6124c8db59a23351c006, type: 3}
   m_PrefabInstance: {fileID: 1116815268}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1238895627 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 446374, guid: 5197bf90a75a5cc45ae1fe0742d601f6, type: 3}
+  m_PrefabInstance: {fileID: 2007319537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1318108565
 GameObject:
   m_ObjectHideFlags: 0
@@ -5908,6 +5913,7 @@ GameObject:
   - component: {fileID: 1390941879}
   - component: {fileID: 1390941876}
   - component: {fileID: 1390941877}
+  - component: {fileID: 1390941880}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -5983,6 +5989,7 @@ MonoBehaviour:
   isSwitchingWeapon: 0
   startStamina: 3
   staminaBar: {fileID: 1870153897}
+  isThrowingGrenade: 0
   dashDuration: 0.15
   dashForce: 10000
   dashPS: {fileID: 1237378584}
@@ -6036,6 +6043,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1390941880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390941874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd2e158c31dd68d409b95ce53c88ac13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrenadeThrower
+  greadePrefab: {fileID: 6603822548331447459, guid: 585c48018df6c814da1c4870be28c7de, type: 3}
+  grenadeClickLayerMask:
+    serializedVersion: 2
+    m_Bits: 576
+  grenadeTimeMultiplier: 0.15
+  rotationSpeed: 10
+  leftHandTransform: {fileID: 1238895627}
+  playerMovement: {fileID: 1390941877}
+  grenadeThrowCooldown: 5
 --- !u!1 &1445253079
 GameObject:
   m_ObjectHideFlags: 0
