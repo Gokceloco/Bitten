@@ -27,9 +27,15 @@ public class AudioManager : MonoBehaviour
     public AudioSource shotgunShootAS;
     public AudioSource positiveAS;
 
+    public AudioSource explosionAS;  
+
     public void PlayDashAS()
     {
         dashASs[Random.Range(0, dashASs.Count)].Play();
+    }
+    public void PlayExplosionAS()
+    {
+        explosionAS.Play();
     }
     public void PlayPositiveAS()
     {

@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class FXManager : MonoBehaviour
 {
+    public AudioManager audioManager;
     public ParticleSystem impactPS;
     public ParticleSystem zombieImpactPS;
     public ParticleSystem potionCollectPS;
     public ParticleSystem zombieExpirePS;
 
     public FloatingText floatingTextPrefab;
+    public ParticleSystem grenadeExplodePS;
 
     public void PlayImpactPS(Vector3 pos, Vector3 direction)
     {
@@ -49,5 +52,13 @@ public class FXManager : MonoBehaviour
         var newPS = Instantiate(zombieExpirePS);
         newPS.transform.position = chestBone.position;
         newPS.Play();
+    }
+
+    public void PlayGrenadeExplodeFX(Vector3 pos)
+    {
+        var newPS = Instantiate(grenadeExplodePS);
+        newPS.transform.position = pos;
+        newPS.Play();
+        audioManager.PlayExplosionAS();
     }
 }

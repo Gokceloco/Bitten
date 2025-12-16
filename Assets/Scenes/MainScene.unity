@@ -2976,6 +2976,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 537179091}
+  - {fileID: 1341745679}
   - {fileID: 840692686}
   - {fileID: 982989391}
   - {fileID: 1028012571}
@@ -3022,6 +3023,7 @@ MonoBehaviour:
   - {fileID: 1155529142}
   shotgunShootAS: {fileID: 982989392}
   positiveAS: {fileID: 840692687}
+  explosionAS: {fileID: 1341745680}
 --- !u!1 &684330102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5686,6 +5688,135 @@ MonoBehaviour:
   getHitUI: {fileID: 317862092}
   messageUI: {fileID: 1366221310}
   inventoryUI: {fileID: 54045946}
+--- !u!1 &1341745678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1341745679}
+  - component: {fileID: 1341745680}
+  m_Layer: 0
+  m_Name: ExplosionAS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1341745679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341745678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 652759584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1341745680
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341745678}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: d02d36e16f252e7478f15d358b625843, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1345973361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6055,15 +6186,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2e158c31dd68d409b95ce53c88ac13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeThrower
+  gameDirector: {fileID: 155029346}
   greadePrefab: {fileID: 6603822548331447459, guid: 585c48018df6c814da1c4870be28c7de, type: 3}
   grenadeClickLayerMask:
     serializedVersion: 2
     m_Bits: 576
   grenadeTimeMultiplier: 0.15
-  rotationSpeed: 10
+  rotationSpeed: 1000
   leftHandTransform: {fileID: 1238895627}
   playerMovement: {fileID: 1390941877}
-  grenadeThrowCooldown: 5
+  grenadeCoolDown: 5
 --- !u!1 &1445253079
 GameObject:
   m_ObjectHideFlags: 0
@@ -6243,11 +6375,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b2bf1207de7a44b9e1f4eba6952b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FXManager
+  audioManager: {fileID: 652759585}
   impactPS: {fileID: 6280281539998945384, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
   zombieImpactPS: {fileID: 6280281539998945384, guid: 229dc258dd9c24d448b3cc33a9766bee, type: 3}
   potionCollectPS: {fileID: 8700035473269227422, guid: 2396b7b138ce0644ca754f8a1c55d25c, type: 3}
   zombieExpirePS: {fileID: 2413333106277601229, guid: f864840586a867542998e156b6d17d27, type: 3}
   floatingTextPrefab: {fileID: -1949648105036441834, guid: b396c810b9fb06542ae41f1ca218555b, type: 3}
+  grenadeExplodePS: {fileID: 198656289721292014, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
 --- !u!4 &1487943170
 Transform:
   m_ObjectHideFlags: 0

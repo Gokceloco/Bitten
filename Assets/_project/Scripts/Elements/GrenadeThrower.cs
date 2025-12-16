@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GrenadeThrower : MonoBehaviour
 {
+    public GameDirector gameDirector;
     public Grenade greadePrefab;
     public LayerMask grenadeClickLayerMask;
 
@@ -15,13 +16,13 @@ public class GrenadeThrower : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
-    public float grenadeThrowCooldown;
+    public float grenadeCoolDown;
     private float _lastGrenadeThrowTime;
 
     private void Update()
     {
         print(Time.time - _lastGrenadeThrowTime);
-        if (Input.GetMouseButtonDown(1) && Time.time - _lastGrenadeThrowTime > grenadeThrowCooldown)
+        if (Input.GetMouseButtonDown(1) && Time.time - _lastGrenadeThrowTime > grenadeCoolDown)
         {
             StartCoroutine(ThrowGreande());
         }
@@ -34,9 +35,9 @@ public class GrenadeThrower : MonoBehaviour
         playerMovement.ChangeAnimationState("ThrowGrenade");
         playerMovement.SetUpperBodyLayerWeightTo1();
 
-        _lastGrenadeThrowTime = Time.time;
-
         playerMovement.isThrowingGrenade = true;
+
+        _lastGrenadeThrowTime = Time.time;  
 
         if (Physics.Raycast(ray, out var hit, 50, grenadeClickLayerMask))
         {
@@ -50,6 +51,7 @@ public class GrenadeThrower : MonoBehaviour
 
             var newGrenade = Instantiate(greadePrefab);
             newGrenade.transform.rotation = transform.rotation;
+            newGrenade.StartGrenade(gameDirector);
 
             newGrenade.transform.DOLocalRotate(newGrenade.transform.right * rotationSpeed,
                 distance * grenadeTimeMultiplier, RotateMode.LocalAxisAdd);

@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    public List<Enemy> enemies;
+    private GameDirector _gameDirector;
+    public List<Enemy> enemiesInRange;
+
+    public void StartGrenade(GameDirector gameDirector)
+    {
+        _gameDirector = gameDirector;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -15,34 +21,39 @@ public class Grenade : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        var enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null && !enemiesInRange.Contains(enemy)) 
+        { 
+            enemiesInRange.Add(enemy);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null && enemiesInRange.Contains(enemy))
+        {
+            enemiesInRange.Remove(enemy);
+        }
+    }
+
     private void Explode()
     {
-        Destroy(gameObject);
-        foreach (Enemy enemy in enemies) 
+        _gameDirector.fXManager.PlayGrenadeExplodeFX(transform.position);
+        foreach (var enemy in enemiesInRange)
         {
-            enemy.GetHit(100);
+            if (enemy != null)
+            {
+                enemy.GetHit(5);
+            }
         }
+        Destroy(gameObject);        
     }
 
     private void OnDestroy()
     {
         transform.DOKill();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        var enemy = other.gameObject.GetComponent<Enemy>();
-        if (!enemies.Contains(enemy))
-        {
-            enemies.Add(enemy);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        var enemy = other.gameObject.GetComponent<Enemy>();
-        if (enemies.Contains(enemy))
-        {
-            enemies.Remove(enemy);
-        }
     }
 }
