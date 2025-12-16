@@ -18,13 +18,17 @@ public class GrenadeThrower : MonoBehaviour
 
     public float grenadeCoolDown;
     private float _lastGrenadeThrowTime;
+    public GrenadeUI grenadeUI;
 
     private void Update()
     {
-        print(Time.time - _lastGrenadeThrowTime);
         if (Input.GetMouseButtonDown(1) && Time.time - _lastGrenadeThrowTime > grenadeCoolDown)
         {
             StartCoroutine(ThrowGreande());
+        }
+        if (gameDirector.gameState == GameState.GamePlay)
+        {
+            grenadeUI.SetFillBar((Time.time - _lastGrenadeThrowTime) / grenadeCoolDown);
         }
     }
 

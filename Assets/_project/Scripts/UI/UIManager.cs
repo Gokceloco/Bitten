@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GetHitUI getHitUI;
     public MessageUI messageUI;
     public InventoryUI inventoryUI;
+    public GrenadeUI grenadeUI;
 
     private void Update()
     {
@@ -49,6 +50,7 @@ public class UIManager : MonoBehaviour
         getHitUI.Show();
         messageUI.Show();
         inventoryUI.Show();
+        grenadeUI.Show();
     }
     public void HideInGameUI()
     {
@@ -56,6 +58,7 @@ public class UIManager : MonoBehaviour
         getHitUI.Hide();
         messageUI.Hide();
         inventoryUI.Hide();
+        grenadeUI.Hide();
     }
 
     //Callback Functions

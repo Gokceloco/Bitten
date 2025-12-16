@@ -5,6 +5,7 @@ using UnityEngine;
 public class FXManager : MonoBehaviour
 {
     public AudioManager audioManager;
+    public CameraHolder cameraHolder;
     public ParticleSystem impactPS;
     public ParticleSystem zombieImpactPS;
     public ParticleSystem potionCollectPS;
@@ -60,5 +61,6 @@ public class FXManager : MonoBehaviour
         newPS.transform.position = pos;
         newPS.Play();
         audioManager.PlayExplosionAS();
+        cameraHolder.ShakeCamera(1,1);
     }
 }
