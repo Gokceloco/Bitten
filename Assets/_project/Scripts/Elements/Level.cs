@@ -45,4 +45,9 @@ public class Level : MonoBehaviour
     {
         _levelManager.gameDirector.uIManager.messageUI.ShowMessage("CLEAR THE LEVEL!", 3, 0);
     }
+
+    public int GetCoinUpgradeCount()
+    {
+        return _levelManager.gameDirector.upgradeManager.coinUpgradeCount; 
+    }
 }

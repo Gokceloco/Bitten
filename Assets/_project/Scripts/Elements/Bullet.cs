@@ -30,7 +30,8 @@ public class Bullet : MonoBehaviour
         }
         if (other.CompareTag("Enemy"))
         {
-            var damage = 1;
+            var bonusDamage = _weapon.gameDirector.upgradeManager.attackUpgradeCount;
+            var damage = 1 + bonusDamage;
             _weapon.gameDirector.fXManager.PlayZombieImpactPS(transform.position, transform.forward);
             var angle = Vector3.Angle(transform.forward, other.transform.forward);
             if (angle < 90)

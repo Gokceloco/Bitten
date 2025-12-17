@@ -105,6 +105,9 @@ public class Player : MonoBehaviour
         {
             return;
         }
+        var defenceBonus = gameDirector.upgradeManager.defenceUpgradeCount;
+        damage -= defenceBonus;
+        damage = Mathf.Max(damage, 1);
         _currentHealth -= damage;
         healthBar.SetFillBar((float)_currentHealth / startHealth);
         gameDirector.uIManager.getHitUI.ShowGetHitGradient();

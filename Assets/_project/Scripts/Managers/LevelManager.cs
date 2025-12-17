@@ -13,7 +13,10 @@ public class LevelManager : MonoBehaviour
         DeleteCurrentLevel();
         CreateNewLevel();
     }
-
+    public void SetStartingLevel(int level)
+    {
+        currentLevelNo = level;
+    }
     public void StopLevel()
     {
         _currentLevel.StopLevel();
@@ -38,4 +41,6 @@ public class LevelManager : MonoBehaviour
             Destroy(_currentLevel.gameObject);
         }
     }
+
+    
 }

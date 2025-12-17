@@ -135,7 +135,12 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(hitDelay);
         if (GetDistanceFromPlayer() < playerAttackDistance)
         {
-            _player.GetHit(1);
+            var damage = 1;
+            if (enemyType == EnemyType.Tough)
+            {
+                damage = 3;
+            }
+            _player.GetHit(damage);
         }
         _isAttackInProgress = false;
     }
@@ -281,6 +286,11 @@ public class Enemy : MonoBehaviour
             minCollectableCount = 3;
             maxCollectableCount = 8;
         }
+
+        int bonusCoinCount = GetComponentInParent<Level>().GetCoinUpgradeCount();
+
+        minCollectableCount += bonusCoinCount;
+        maxCollectableCount += bonusCoinCount;
 
         for (int i = 0; i < Random.Range(minCollectableCount, maxCollectableCount); i++)
         {
