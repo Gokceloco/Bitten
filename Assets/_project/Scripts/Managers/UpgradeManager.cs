@@ -4,13 +4,13 @@ public class UpgradeManager : MonoBehaviour
 {
     public int attackUpgradeCount;
     public int defenceUpgradeCount;
-    public int coinUpgradeCount;
+    public int lootUpgradeCount;
 
     public void SetStartingUpgrades(int attack, int defence, int coins)
     {
         attackUpgradeCount = attack;
         defenceUpgradeCount = defence;
-        coinUpgradeCount = coins;
+        lootUpgradeCount = coins;
     }
 
     private void Update()
@@ -31,9 +31,9 @@ public class UpgradeManager : MonoBehaviour
         defenceUpgradeCount++;
         PlayerPrefs.SetInt("DefenceUpgrades", defenceUpgradeCount);
     }
-    public void UpgradeCoin()
+    public void UpgradeLoot()
     {
-        coinUpgradeCount++;
-        PlayerPrefs.SetInt("CoinUpgrades", coinUpgradeCount);
+        lootUpgradeCount++;
+        PlayerPrefs.SetInt("CoinUpgrades", lootUpgradeCount);
     }
 }

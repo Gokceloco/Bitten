@@ -48,6 +48,6 @@ public class Level : MonoBehaviour
 
     public int GetCoinUpgradeCount()
     {
-        return _levelManager.gameDirector.upgradeManager.coinUpgradeCount; 
+        return _levelManager.gameDirector.upgradeManager.lootUpgradeCount; 
     }
 }

@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public InventoryUI inventoryUI;
     public GrenadeUI grenadeUI;
     public CoinUI coinUI;
+    public UpgradeUI upgradeUI;
 
     private void Update()
     {
@@ -30,6 +31,8 @@ public class UIManager : MonoBehaviour
         failUI.Hide();
         escapeMenu.Hide();
         HideInGameUI();
+        upgradeUI.Hide();
+        coinUI.Show();
     }
     public void ShowEscapeMenu()
     {
@@ -40,10 +43,12 @@ public class UIManager : MonoBehaviour
     public void ShowWinUI(float delay)
     {
         winUI.Show(delay);
+        upgradeUI.Show(delay);   
     }
     public void ShowFailUI(float delay)
     {
         failUI.Show(delay);
+        upgradeUI.Show(delay);
     }
     public void ShowInGameUI()
     {
@@ -52,7 +57,6 @@ public class UIManager : MonoBehaviour
         messageUI.Show();
         inventoryUI.Show();
         grenadeUI.Show();
-        coinUI.Show();
     }
     public void HideInGameUI()
     {
@@ -60,8 +64,7 @@ public class UIManager : MonoBehaviour
         getHitUI.Hide();
         messageUI.Hide();
         inventoryUI.Hide();
-        grenadeUI.Hide();
-        coinUI.Hide();
+        grenadeUI.Hide();        
     }
 
     //Callback Functions
@@ -79,6 +82,11 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         ShowMainMenu();
+    }
+
+    public void UpgradeButtonPressed()
+    {
+        upgradeUI.Show(0);
     }
     public void ExitButtonPressed()
     {
