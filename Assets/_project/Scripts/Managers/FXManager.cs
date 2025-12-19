@@ -14,10 +14,19 @@ public class FXManager : MonoBehaviour
     public FloatingText floatingTextPrefab;
     public ParticleSystem grenadeExplodePS;
 
+    public ParticleSystem enemySpellImpactPS;
+
     public void PlayImpactPS(Vector3 pos, Vector3 direction)
     {
         var newPS = Instantiate(impactPS);
         newPS.transform.position = pos - direction * .5f;
+        newPS.Play();
+    }
+    public void PlayEnemySpellImpactFX(Vector3 pos)
+    {
+        var newPS = Instantiate(enemySpellImpactPS);
+        newPS.transform.position = pos;
+        audioManager.PlaySpellImpactAS();
         newPS.Play();
     }
     public void PlayZombieImpactPS(Vector3 pos, Vector3 direction)

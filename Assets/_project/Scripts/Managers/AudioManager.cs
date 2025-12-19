@@ -27,7 +27,20 @@ public class AudioManager : MonoBehaviour
     public AudioSource shotgunShootAS;
     public AudioSource positiveAS;
 
-    public AudioSource explosionAS;  
+    public AudioSource explosionAS;
+    
+    public AudioSource spellCastAS;
+    public AudioSource spellImpactAS;  
+    
+    public void PlaySpellCastAS()
+    {
+        spellCastAS.Play();
+    }
+
+    public void PlaySpellImpactAS()
+    {
+        spellImpactAS.Play();
+    }
 
     public void PlayDashAS()
     {

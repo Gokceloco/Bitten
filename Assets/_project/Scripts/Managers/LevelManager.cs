@@ -22,6 +22,11 @@ public class LevelManager : MonoBehaviour
         _currentLevel.StopLevel();
     }
 
+    public void MakeChildToCurrentLevel(Transform obj)
+    {
+        obj.SetParent(_currentLevel.transform);
+    }
+
     public float GetCurrentLevelTime()
     {
         return _currentLevel.levelTime;

@@ -24,9 +24,9 @@ public class GameDirector : MonoBehaviour
 
     private void LoadPersistanceData()
     {
-        var level = PlayerPrefs.GetInt("LastLevel");
-        level = Mathf.Max(level, 1);
-        levelManager.SetStartingLevel(level);
+        var levelNo = PlayerPrefs.GetInt("LastLevel");
+        levelNo = Mathf.Clamp(levelNo, 1, levelManager.levelPrefabs.Count);
+        levelManager.SetStartingLevel(levelNo);
         coinManager.SetStartingCoinCount(PlayerPrefs.GetInt("CoinCount"));
         upgradeManager.SetStartingUpgrades(
             PlayerPrefs.GetInt("AttackUpgrades"),
@@ -95,8 +95,8 @@ public class GameDirector : MonoBehaviour
         uIManager.ShowInGameUI();
         if (levelManager.currentLevelNo == 1)
         {
-            uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
-            uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);
+            /*uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
+            uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);*/
         }
     }
 

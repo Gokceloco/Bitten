@@ -47,6 +47,10 @@ public class Enemy : MonoBehaviour
 
     public EnemyType enemyType;
 
+    public float attackRate;
+
+    public EnemySpell enemySpellPrefab;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -126,22 +130,35 @@ public class Enemy : MonoBehaviour
             _isAttackInProgress = true;
             _navMeshAgent.isStopped = true;
             SwitchAnimation(AnimationState.Attack, true);
-            _attackCoroutine = StartCoroutine(AttackCoroutine(1.2f));
+            _attackCoroutine = StartCoroutine(AttackCoroutine(attackRate));
         }
     }
 
     IEnumerator AttackCoroutine(float hitDelay)
     {
+        transform.DOKill();
+        transform.DOLookAt(_player.transform.position, .2f);
+
         yield return new WaitForSeconds(hitDelay);
-        if (GetDistanceFromPlayer() < playerAttackDistance)
+        if (enemyType == EnemyType.Basic || enemyType == EnemyType.Tough)
         {
-            var damage = 1;
-            if (enemyType == EnemyType.Tough)
+            if (GetDistanceFromPlayer() < playerAttackDistance)
             {
-                damage = 3;
+                var damage = 1;
+                if (enemyType == EnemyType.Tough)
+                {
+                    damage = 3;
+                }
+                _player.GetHit(damage);
             }
-            _player.GetHit(damage);
         }
+        else if (enemyType == EnemyType.Ranged)
+        {
+            var newSpell = Instantiate(enemySpellPrefab);
+            newSpell.transform.position = transform.position + Vector3.up + transform.forward;
+            newSpell.StartEnemySpell(_player, transform.forward);
+            _player.gameDirector.audioManager.PlaySpellCastAS();
+        }        
         _isAttackInProgress = false;
     }
 
@@ -323,6 +340,7 @@ public class Enemy : MonoBehaviour
             + Vector3.right * Random.Range(-.5f, .5f) + Vector3.forward * Random.Range(-.5f, .5f);
         var force = new Vector3(Random.Range(-50f,50f), 200f, Random.Range(-50f, 50f));
         newCollectable.GetComponent<Rigidbody>().AddForce(force);
+        _player.gameDirector.levelManager.MakeChildToCurrentLevel(newCollectable.transform);
     }
 }
 

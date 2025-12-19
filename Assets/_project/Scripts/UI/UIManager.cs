@@ -99,11 +99,13 @@ public class UIManager : MonoBehaviour
     }
     public void LoadNextLevelButtonPressed()
     {
+        upgradeUI.Hide();
         winUI.Hide();
         gameDirector.LoadNextLevel();
     }
     public void RetryButtonPressed()
     {
+        upgradeUI.Hide();
         failUI.Hide();
         gameDirector.RestartLevel();
     }
