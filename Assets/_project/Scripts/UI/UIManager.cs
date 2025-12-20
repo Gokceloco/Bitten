@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GrenadeUI grenadeUI;
     public CoinUI coinUI;
     public UpgradeUI upgradeUI;
+    public UnlockUI unlockUI;
 
     private void Update()
     {
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
         HideInGameUI();
         upgradeUI.Hide();
         coinUI.Show();
+        unlockUI.Hide();
     }
     public void ShowEscapeMenu()
     {
@@ -56,7 +58,10 @@ public class UIManager : MonoBehaviour
         getHitUI.Show();
         messageUI.Show();
         inventoryUI.Show();
-        grenadeUI.Show();
+        if (gameDirector.levelManager.currentLevelNo > 5)
+        {
+            grenadeUI.Show();
+        }
     }
     public void HideInGameUI()
     {

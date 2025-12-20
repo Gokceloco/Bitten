@@ -9,6 +9,7 @@ public class GameDirector : MonoBehaviour
     public TimerManager timerManager;
     public CoinManager coinManager;
     public UpgradeManager upgradeManager;
+    public UnlockManager unlockManager;
     public Player player;
 
 
@@ -63,6 +64,10 @@ public class GameDirector : MonoBehaviour
             ResetPersistanceData();
             RestartLevel();
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            LevelCompleted();
+        }
     }
 
     private void LoadPreviousLevel()
@@ -95,8 +100,16 @@ public class GameDirector : MonoBehaviour
         uIManager.ShowInGameUI();
         if (levelManager.currentLevelNo == 1)
         {
-            /*uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
-            uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);*/
+            uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
+            uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);
+        }
+        if (levelManager.currentLevelNo == 5)
+        {
+            uIManager.messageUI.ShowMessage("Right Click To Throw Greande!", 3, 0);
+        }
+        if (levelManager.currentLevelNo == 10)
+        {
+            uIManager.messageUI.ShowMessage("Hit 2 On Keyboard For Shotgun!", 3, 0);
         }
     }
 
@@ -113,6 +126,7 @@ public class GameDirector : MonoBehaviour
         uIManager.ShowWinUI(3);
         uIManager.HideInGameUI();
         PlayerPrefs.SetInt("LastLevel", levelManager.currentLevelNo + 1);
+        unlockManager.ShowUnlockUI(levelManager.currentLevelNo);
     }
 
     public void LevelFailed(float delay)

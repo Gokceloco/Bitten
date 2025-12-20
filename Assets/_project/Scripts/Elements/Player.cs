@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         {
             SwitchToMachineGun();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && gameDirector.levelManager.currentLevelNo > 10)
         {
             SwitchToShotGun();
         }

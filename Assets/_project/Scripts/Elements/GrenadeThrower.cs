@@ -22,6 +22,10 @@ public class GrenadeThrower : MonoBehaviour
 
     private void Update()
     {
+        if (gameDirector.levelManager.currentLevelNo <= 5)
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(1) && Time.time - _lastGrenadeThrowTime > grenadeCoolDown)
         {
             StartCoroutine(ThrowGreande());
