@@ -3763,7 +3763,6 @@ MonoBehaviour:
   - {fileID: 1949110109464633665, guid: 54d7a089d495a0e4f88d604938369ec4, type: 3}
   - {fileID: 1949110109464633665, guid: 99ce5828902947a47bb5526dfc0cfdf3, type: 3}
   - {fileID: 1949110109464633665, guid: fcedd9249d26e9f4d947b971160c5da3, type: 3}
-  - {fileID: 1949110109464633665, guid: a5689077d6761414db06af2f6c5e1630, type: 3}
   currentLevelNo: 1
 --- !u!4 &706924357 stripped
 Transform:
@@ -7425,8 +7424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 330585545}
-  walkSpeed: 5
-  runSpeed: 10
+  walkSpeed: 6
+  runSpeed: 12
   jumpForce: 7000
   fallSpeedBonus: 8
   spaceKeyBehaviour: 1

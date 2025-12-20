@@ -9,8 +9,13 @@ public class MessageTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().gameDirector.uIManager.messageUI.ShowMessage(msg, duration, 0);
-            gameObject.SetActive(false);
+            var player = other.GetComponent<Player>();
+            if (player.gameDirector.levelManager.currentLevelNo 
+                < player.gameDirector.levelManager.levelPrefabs.Count)
+            {
+                player.gameDirector.uIManager.messageUI.ShowMessage(msg, duration, 0);
+                gameObject.SetActive(false);
+            }            
         }
     }
 }

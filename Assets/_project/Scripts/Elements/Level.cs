@@ -17,6 +17,10 @@ public class Level : MonoBehaviour
         {
             e.StartEnemy(_levelManager.gameDirector.player);
         }
+        foreach (var s in GetComponentsInChildren<EnemySpawner>())
+        {
+            s.StartEnemySpawner(_levelManager);
+        }
     }
 
     public bool IsLevelCleared()

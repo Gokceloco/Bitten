@@ -83,10 +83,6 @@ public class GameDirector : MonoBehaviour
     public void LoadNextLevel()
     {
         levelManager.currentLevelNo++;
-        if (levelManager.currentLevelNo >= levelManager.levelPrefabs.Count)
-        {
-            levelManager.currentLevelNo = levelManager.levelPrefabs.Count;
-        }
         RestartLevel();
     }
 
@@ -98,16 +94,21 @@ public class GameDirector : MonoBehaviour
         audioManager.PlayAmbientSound();
         timerManager.RestartTimerManager(levelManager.GetCurrentLevelTime());
         uIManager.ShowInGameUI();
+
         if (levelManager.currentLevelNo == 1)
         {
             uIManager.messageUI.ShowMessage("WASD TO MOVE AROUND!", 3, 0);
             uIManager.messageUI.ShowMessage("FIND THE POTION BEFORE TIME RUNS OUT!", 3, 4);
         }
-        if (levelManager.currentLevelNo == 5)
+        else if (levelManager.currentLevelNo == 2)
+        {
+            uIManager.messageUI.ShowMessage("Left Click To Shoot!", 3, 0);
+        }
+        else if(levelManager.currentLevelNo == 6)
         {
             uIManager.messageUI.ShowMessage("Right Click To Throw Greande!", 3, 0);
         }
-        if (levelManager.currentLevelNo == 10)
+        else if(levelManager.currentLevelNo == 11)
         {
             uIManager.messageUI.ShowMessage("Hit 2 On Keyboard For Shotgun!", 3, 0);
         }

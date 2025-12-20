@@ -51,6 +51,8 @@ public class Enemy : MonoBehaviour
 
     public EnemySpell enemySpellPrefab;
 
+    private int _damageBonus;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -62,9 +64,15 @@ public class Enemy : MonoBehaviour
 
     public void StartEnemy(Player player)
     {
+        _player = player;
+
+        startHealth += (_player.gameDirector.levelManager.currentLevelNo - 1)
+            / _player.gameDirector.levelManager.levelPrefabs.Count;
         _currentHealth = startHealth;
         healthBar.SetFillBar(1);
-        _player = player;
+        _damageBonus = (_player.gameDirector.levelManager.currentLevelNo - 1) 
+            / _player.gameDirector.levelManager.levelPrefabs.Count;
+
     }
 
     private void Update()
@@ -136,8 +144,17 @@ public class Enemy : MonoBehaviour
 
     IEnumerator AttackCoroutine(float hitDelay)
     {
-        transform.DOKill();
-        transform.DOLookAt(_player.transform.position, .2f);
+        if (enemyType == EnemyType.RangedTough)
+        {
+            transform.DOKill();
+            transform.DOLookAt(_player.transform.position, 2f);
+        }
+        else
+        {
+            transform.DOKill();
+            transform.DOLookAt(_player.transform.position, .2f);
+        }
+            
 
         yield return new WaitForSeconds(hitDelay);
         if (enemyType == EnemyType.Basic || enemyType == EnemyType.Tough)
@@ -157,8 +174,21 @@ public class Enemy : MonoBehaviour
             var newSpell = Instantiate(enemySpellPrefab);
             newSpell.transform.position = transform.position + Vector3.up + transform.forward;
             newSpell.StartEnemySpell(_player, transform.forward);
+            newSpell.transform.SetParent(GetComponentInParent<Level>().transform);
             _player.gameDirector.audioManager.PlaySpellCastAS();
-        }        
+        }
+        else if (enemyType == EnemyType.RangedTough)
+        {
+            for (global::System.Int32 i = 0; i < 3; i++)
+            {
+                var newSpell = Instantiate(enemySpellPrefab);
+                newSpell.transform.position 
+                    = transform.position + Vector3.up + transform.forward + transform.right * (i-1);
+                newSpell.StartEnemySpell(_player, transform.forward);
+                newSpell.transform.SetParent(GetComponentInParent<Level>().transform);
+                _player.gameDirector.audioManager.PlaySpellCastAS();
+            }            
+        }
         _isAttackInProgress = false;
     }
 
@@ -250,15 +280,19 @@ public class Enemy : MonoBehaviour
     public void GetHit(int damage)
     {
         _currentHealth -= damage;
-        StartCoroutine(PlayGetHitCoroutine());
         healthBar.SetFillBar((float)_currentHealth / startHealth);
         _player.gameDirector.fXManager.SpawnFloatingText(damage, transform.position);
         _hitFlash.PlayHitFlash();
         _player.gameDirector.audioManager.PlayHitAS();
-        if (actionState == ActionState.Standing)
+        if (enemyType != EnemyType.RangedTough)
         {
-            actionState = ActionState.WalkTowardsPlayer;
-        }
+            StartCoroutine(PlayGetHitCoroutine());
+
+            if (actionState == ActionState.Standing)
+            {
+                actionState = ActionState.WalkTowardsPlayer;
+            }
+        }        
         if (_currentHealth <= 0)
         {
             Die();
@@ -298,7 +332,7 @@ public class Enemy : MonoBehaviour
         var minCollectableCount = 1;
         var maxCollectableCount = 4;
 
-        if (enemyType == EnemyType.Tough)
+        if (enemyType == EnemyType.Tough || enemyType == EnemyType.RangedTough)
         {
             minCollectableCount = 3;
             maxCollectableCount = 8;
@@ -366,4 +400,5 @@ public enum EnemyType
     Basic,
     Tough,
     Ranged,
+    RangedTough,
 }

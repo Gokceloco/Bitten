@@ -8,6 +8,8 @@ public class Grenade : MonoBehaviour
     private GameDirector _gameDirector;
     public List<Enemy> enemiesInRange;
 
+    public int damage;
+
     public void StartGrenade(GameDirector gameDirector)
     {
         _gameDirector = gameDirector;
@@ -47,7 +49,7 @@ public class Grenade : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.GetHit(5);
+                enemy.GetHit(damage + _gameDirector.upgradeManager.attackUpgradeCount * 2);
             }
         }
         Destroy(gameObject);        

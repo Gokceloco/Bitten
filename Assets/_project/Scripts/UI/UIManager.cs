@@ -62,6 +62,10 @@ public class UIManager : MonoBehaviour
         {
             grenadeUI.Show();
         }
+        else
+        {
+            grenadeUI.Hide();
+        }
     }
     public void HideInGameUI()
     {

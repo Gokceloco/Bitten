@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
 
     private void CreateNewLevel()
     {
-        _currentLevel = Instantiate(levelPrefabs[currentLevelNo - 1]);
+        _currentLevel = Instantiate(levelPrefabs[(currentLevelNo - 1) % levelPrefabs.Count]);
         _currentLevel.transform.position = Vector3.zero;
         _currentLevel.StartLevel(this);
     }

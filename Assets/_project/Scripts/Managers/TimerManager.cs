@@ -11,8 +11,9 @@ public class TimerManager : MonoBehaviour
 
     public void RestartTimerManager(float levelTime)
     {
-        _remainingTime = levelTime;
-        _totalTime = levelTime;
+        _remainingTime = levelTime + ((gameDirector.levelManager.currentLevelNo - 1) 
+            / gameDirector.levelManager.levelPrefabs.Count)*2;
+        _totalTime = _remainingTime;
     }
 
     public void CollectableCollected()

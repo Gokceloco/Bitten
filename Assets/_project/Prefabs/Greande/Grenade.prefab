@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Grenade
   enemiesInRange: []
+  damage: 10
 --- !u!1001 &8362758455616006354
 PrefabInstance:
   m_ObjectHideFlags: 0
