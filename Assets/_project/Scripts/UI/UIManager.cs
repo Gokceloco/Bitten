@@ -44,13 +44,11 @@ public class UIManager : MonoBehaviour
     }
     public void ShowWinUI(float delay)
     {
-        winUI.Show(delay);
-        upgradeUI.Show(delay);   
+        winUI.Show(delay);  
     }
     public void ShowFailUI(float delay)
     {
         failUI.Show(delay);
-        upgradeUI.Show(delay);
     }
     public void ShowInGameUI()
     {

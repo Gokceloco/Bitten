@@ -16,9 +16,6 @@ public class FailUI : MonoBehaviour
     {
         gameObject.SetActive(true);
         _canvasGroup.DOFade(1, .2f).SetDelay(delay);
-        bg.rectTransform.DOKill();
-        bg.rectTransform.anchoredPosition = new Vector3(0, -300, 0);
-        bg.rectTransform.DOAnchorPosY(300, 60).SetLoops(-1, LoopType.Yoyo);
 
     }
 
