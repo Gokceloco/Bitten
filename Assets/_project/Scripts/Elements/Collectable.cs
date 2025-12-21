@@ -18,6 +18,8 @@ public class Collectable : MonoBehaviour
 
     public CollectableType collectableType;
 
+    public LayerMask layerMask;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -37,6 +39,10 @@ public class Collectable : MonoBehaviour
         }
         if (other.CompareTag("Player") && !_isMovingTowardsPlayer)
         {
+            if (Physics.Raycast(transform.position, other.transform.position - transform.position, 10, layerMask))
+            {
+                return;
+            }
             _isMovingTowardsPlayer = true;
             _player = other.GetComponent<Player>();
             collisionCollider.enabled = false;
