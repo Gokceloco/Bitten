@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,6 +19,24 @@ public class Weapon : MonoBehaviour
 
     public float shotgunSpread;
 
+    public List<Bullet> bullets;
+
+    private void Awake()
+    {
+        CreateBullets();
+    }
+
+    private void CreateBullets()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            var newBullet = Instantiate(bulletPrefab);
+            newBullet.transform.position = shootPosition.position;
+            newBullet.gameObject.SetActive(false);
+            newBullet.transform.position = shootPosition.position;
+            bullets.Add(newBullet);
+        }        
+    }
 
     private void Update()
     {
@@ -61,11 +80,13 @@ public class Weapon : MonoBehaviour
 
     public void Shoot(float spread)
     {
-        var newBullet = Instantiate(bulletPrefab);
+        var newBullet = bullets[0];
+        newBullet.gameObject.SetActive(true);
         newBullet.transform.position = shootPosition.position;
         newBullet.transform.LookAt(shootPosition.position + shootPosition.forward 
             + new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), 0));
-        newBullet.StartBullet(this);
+        newBullet.StartBullet(this);        
+        bullets.Remove(newBullet);
         _timeSinceLastShoot = 0;        
     }
 }

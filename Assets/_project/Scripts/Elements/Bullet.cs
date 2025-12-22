@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
         var distance = (transform.position - _weapon.transform.position).magnitude;
         if (distance > destroyDistance)
         {
-            Destroy(gameObject);
+            AddBackToPool();
         }
     }
 
@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
         if (other.CompareTag("Wall"))
         {
             _weapon.gameDirector.fXManager.PlayImpactPS(transform.position, transform.forward);
-            Destroy(gameObject);
+            AddBackToPool();
         }
         if (other.CompareTag("Enemy"))
         {
@@ -40,7 +40,14 @@ public class Bullet : MonoBehaviour
                 damage *= 2;
             }
             other.GetComponent<Enemy>().GetHit(damage);
-            Destroy(gameObject);
+            AddBackToPool();
         }
+    }
+
+    private void AddBackToPool()
+    {
+        _weapon.bullets.Add(this);
+        gameObject.SetActive(false);
+        transform.position = _weapon.shootPosition.position;
     }
 }
