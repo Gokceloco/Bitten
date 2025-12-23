@@ -26,6 +26,7 @@ public class InventoryUI : MonoBehaviour
     }
     public void Show()
     {
+
         gameObject.SetActive(true);
         _canvasGroup.DOFade(1, .2f);
     }

@@ -23,7 +23,7 @@ public class CoinUI : MonoBehaviour
 
     public void Hide()
     {
-        _canvasGroup.DOFade(0, .2f).OnComplete(() => gameObject.SetActive(false));
+        _canvasGroup.DOFade(0, .2f).SetUpdate(true).OnComplete(() => gameObject.SetActive(false));
     }
 
     public void SetCoinCount(int coinCount)

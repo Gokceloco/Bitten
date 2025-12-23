@@ -12,15 +12,21 @@ public class GameDirector : MonoBehaviour
     public UnlockManager unlockManager;
     public Player player;
 
-
     public UIManager uIManager;
 
     public GameState gameState;
+
+    public Texture2D cursorTexture;
+
+    public bool adminMode;
+    public bool webMode;
 
     private void Start()
     {
         LoadPersistanceData();
         uIManager.ShowMainMenu();
+        Cursor.SetCursor(cursorTexture,
+            new Vector2(0, 0), CursorMode.ForceSoftware);
     }
 
     private void LoadPersistanceData()
@@ -47,6 +53,10 @@ public class GameDirector : MonoBehaviour
 
     private void Update()
     {
+        if (!adminMode)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.P))
         {
             RestartLevel();

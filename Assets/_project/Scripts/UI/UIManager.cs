@@ -69,7 +69,15 @@ public class UIManager : MonoBehaviour
         timerUI.Show();
         getHitUI.Show();
         messageUI.Show();
-        inventoryUI.Show();
+        
+        if (gameDirector.levelManager.currentLevelNo > 11)
+        {
+            inventoryUI.Show();
+        }
+        else
+        {
+            inventoryUI.Hide();
+        }
         if (gameDirector.levelManager.currentLevelNo > 5)
         {
             grenadeUI.Show();
@@ -114,15 +122,14 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
     public void StartGameButtonPressed()
-    {
-        mainMenu.Hide();
-
-        if (gameDirector.levelManager.currentLevelNo == 1)
+    {     
+        if (gameDirector.levelManager.currentLevelNo == 1 && !gameDirector.webMode)
         {
             _videoPlayCoroutine = StartCoroutine(VideoPlayCoroutine());
         }
         else
         {
+            mainMenu.Hide();
             gameDirector.RestartLevel();
         }
     }
@@ -132,13 +139,14 @@ public class UIManager : MonoBehaviour
         gameDirector.gameState = GameState.Video;
         videoPlayer.enabled = true;
         videoPlayer.Play();
-        yield return new WaitForSeconds(9);
+        yield return new WaitForSeconds(9);        
         FinalizeVideo();
     }
 
     void FinalizeVideo()
     {
         videoPlayer.enabled = false;
+        mainMenu.Hide();
         gameDirector.RestartLevel();
     }
 
