@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
-            var newBullet = Instantiate(bulletPrefab);
+            var newBullet = Instantiate(bulletPrefab, transform);
             newBullet.transform.position = shootPosition.position;
             newBullet.gameObject.SetActive(false);
             newBullet.transform.position = shootPosition.position;
@@ -82,6 +82,7 @@ public class Weapon : MonoBehaviour
     {
         var newBullet = bullets[0];
         newBullet.gameObject.SetActive(true);
+        newBullet.transform.SetParent(null);
         newBullet.transform.position = shootPosition.position;
         newBullet.transform.LookAt(shootPosition.position + shootPosition.forward 
             + new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), 0));

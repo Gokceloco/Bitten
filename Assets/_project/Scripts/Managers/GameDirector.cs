@@ -148,4 +148,5 @@ public enum GameState
     LoseUI,
     Inventory,
     EscapeMenu,
+    Video,
 }

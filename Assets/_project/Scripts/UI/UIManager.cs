@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,11 +19,23 @@ public class UIManager : MonoBehaviour
     public UpgradeUI upgradeUI;
     public UnlockUI unlockUI;
 
+    public VideoPlayer videoPlayer;
+
+    private Coroutine _videoPlayCoroutine;
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (gameDirector.gameState == GameState.GamePlay && Input.GetKeyDown(KeyCode.Escape))
         {
             ShowEscapeMenu();
+        }
+        else if (gameDirector.gameState == GameState.Video && Input.GetKeyDown(KeyCode.Escape))
+        {
+            FinalizeVideo();
+            if (_videoPlayCoroutine != null) 
+            { 
+                StopCoroutine(_videoPlayCoroutine);
+            }
         }
     }
     public void ShowMainMenu()
@@ -102,8 +116,32 @@ public class UIManager : MonoBehaviour
     public void StartGameButtonPressed()
     {
         mainMenu.Hide();
+
+        if (gameDirector.levelManager.currentLevelNo == 1)
+        {
+            _videoPlayCoroutine = StartCoroutine(VideoPlayCoroutine());
+        }
+        else
+        {
+            gameDirector.RestartLevel();
+        }
+    }
+
+    IEnumerator VideoPlayCoroutine()
+    {
+        gameDirector.gameState = GameState.Video;
+        videoPlayer.enabled = true;
+        videoPlayer.Play();
+        yield return new WaitForSeconds(9);
+        FinalizeVideo();
+    }
+
+    void FinalizeVideo()
+    {
+        videoPlayer.enabled = false;
         gameDirector.RestartLevel();
     }
+
     public void LoadNextLevelButtonPressed()
     {
         upgradeUI.Hide();

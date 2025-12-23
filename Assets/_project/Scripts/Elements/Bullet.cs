@@ -49,5 +49,6 @@ public class Bullet : MonoBehaviour
         _weapon.bullets.Add(this);
         gameObject.SetActive(false);
         transform.position = _weapon.shootPosition.position;
+        transform.SetParent(_weapon.transform);
     }
 }
